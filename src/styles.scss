@@ -1,1 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
+@import "styles/variables.scss";
+
+html,
+body {
+  height: 100%;
+  background-image: linear-gradient(var(--green-01), var(--white));
+}

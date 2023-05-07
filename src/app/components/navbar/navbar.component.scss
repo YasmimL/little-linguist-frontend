@@ -1,0 +1,42 @@
+.navbar {
+  padding: 0.5rem;
+  box-shadow: -1px 1px 12px -1px var(--box-shadow-01);
+  background-color: var(--blue-02) !important;
+
+  .container-fluid {
+    padding-left: 0;
+
+    .logo-wrapper {
+      flex-basis: 11rem;
+
+      img {
+        width: 11rem;
+      }
+    }
+
+    .user-profile-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      flex-basis: 11rem;
+
+      img {
+        width: 2rem;
+      }
+    }
+
+    .pages {
+      display: flex;
+      justify-content: space-between;
+      width: 30%;
+      color: var(--white);
+      font-size: 1.3rem;
+      font-weight: 500;
+
+      a {
+        &.active {
+          color: var(--gray-01);
+        }
+      }
+    }
+  }
+}

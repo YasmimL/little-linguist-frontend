@@ -1,1 +1,29 @@
-<p>home works!</p>
+<div class="home-container">
+  <app-carousel
+    [images]="[
+      'assets/images/slide-game1.png',
+      'assets/images/slide-game2.png',
+      'assets/images/slide-game3.png'
+    ]"
+  ></app-carousel>
+  <div class="actions">
+    <button
+      type="button"
+      class="btn btn-primary btn-lg"
+      routerLink="activities"
+    >
+      <img src="assets/images/discover.png" />
+      <div class="informations">
+        <h3>Descubra</h3>
+        <h5>Discover</h5>
+      </div>
+    </button>
+    <button type="button" class="btn btn-primary btn-lg" routerLink="games">
+      <img src="assets/images/game.png" />
+      <div class="informations">
+        <h3>Divirta-se</h3>
+        <h5>Have fun</h5>
+      </div>
+    </button>
+  </div>
+</div>

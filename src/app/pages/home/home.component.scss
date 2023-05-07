@@ -1,0 +1,49 @@
+.home-container {
+  padding: 3rem;
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      height: 7.5rem;
+      width: 17rem;
+      border-color: transparent;
+      border-radius: 20px;
+      background-color: var(--pink-01);
+      box-shadow: 4px 3px 12px -4px var(--box-shadow-02);
+
+      .informations {
+        h5 {
+          color: var(--gray-02);
+          text-align: initial;
+          margin-left: 0.1rem;
+        }
+
+        &:last-of-type {
+          margin-left: 0.5rem;
+        }
+      }
+
+      &:first-child {
+        margin-right: 2rem;
+
+        img {
+          width: 4.4rem;
+        }
+      }
+
+      &:last-child {
+        margin-left: 2rem;
+
+        img {
+          width: 6rem;
+        }
+      }
+    }
+  }
+}

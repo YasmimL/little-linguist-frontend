@@ -1,0 +1,9 @@
+.carousel {
+  width: 90%;
+  margin: 0 auto;
+
+  .carousel-inner {
+    border-radius: 10px;
+    box-shadow: 2px 1px 23px -6px var(--box-shadow-02);
+  }
+}

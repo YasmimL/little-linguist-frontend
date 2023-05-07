@@ -1,0 +1,32 @@
+<div class="carousel slide">
+  <div class="carousel-indicators">
+    <button
+      *ngFor="let _ of images; index as i"
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      [ngClass]="{ active: i === current }"
+      (click)="goToIndex(i)"
+    ></button>
+  </div>
+  <div class="carousel-inner" *ngFor="let image of images; index as i">
+    <div class="carousel-item" [ngClass]="{ active: i === current }">
+      <img src="{{ image }}" class="d-block w-100" />
+    </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    (click)="previous()"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    (click)="next()"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>
