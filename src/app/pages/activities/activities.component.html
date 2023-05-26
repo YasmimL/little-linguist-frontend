@@ -1,1 +1,26 @@
-<p>activities works!</p>
+<div class="activities-container">
+  <div class="breadcrumb">
+    <img src="assets/images/discover-black.png" />
+    <h3 class="breadcrumb-item" aria-current="page">Descubra</h3>
+    <p class="breadcrumb-item" aria-current="page">Discover</p>
+  </div>
+
+  <div class="activities-cards">
+    <div class="row row-cols-1 row-cols-md-3 g-5">
+      <div class="col" *ngFor="let activity of activities; index as i">
+        <div class="card">
+          <div class="card-body">
+            <img
+              src="{{ activities[i].src }}"
+              [style]="{ width: activities[i].width }"
+            />
+            <div class="card-details">
+              <h5 class="card-title">{{ activities[i].portugueseName }}</h5>
+              <h6>{{ activities[i].englishName }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
