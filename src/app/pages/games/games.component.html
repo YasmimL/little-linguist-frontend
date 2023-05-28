@@ -1,1 +1,40 @@
-<p>games works!</p>
+<div class="games-container">
+  <div class="breadcrumb">
+    <img src="assets/images/game-black.png" />
+    <h3 class="breadcrumb-item" aria-current="page">Divirta-se</h3>
+    <p class="breadcrumb-item" aria-current="page">Have fun</p>
+  </div>
+
+  <div class="games-cards">
+    <div class="row row-cols-1 row-cols-md-4 g-5">
+      <div class="col" *ngFor="let game of games; index as i">
+        <div
+          class="card"
+          (click)="selectGame(i)"
+          [ngClass]="{ active: i === current }"
+        >
+          <div class="card-body">
+            <img src="{{ games[i].src }}" [style]="{ width: games[i].width }" />
+            <div class="card-details">
+              <h5 class="card-title">{{ games[i].portugueseName }}</h5>
+              <h6>{{ games[i].englishName }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="current !== -1">
+    <div class="game-painel">
+      <div class="game-type">
+        <img src="{{ games[current].src }}" />
+        <h5>{{ games[current].portugueseName }}</h5>
+      </div>
+      <div class="card"></div>
+    </div>
+    <div class="game-rating">
+      <img src="assets/images/rating.png" />
+      <h5>Classificação</h5>
+    </div>
+  </div>
+</div>
