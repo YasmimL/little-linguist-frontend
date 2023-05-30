@@ -1,5 +1,5 @@
 footer {
-  position: fixed;
+  position: relative;
   bottom: 0;
   background-color: var(--gray-03);
   color: var(--white);
@@ -13,5 +13,11 @@ footer {
 
   p {
     margin-left: 2rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  footer {
+    position: relative;
   }
 }

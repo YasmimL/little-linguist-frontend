@@ -1,3 +1,8 @@
+:host {
+  min-height: calc(100% - 209.88px);
+  display: block;
+}
+
 .activities-container {
   padding: 1.2rem;
 
@@ -26,6 +31,7 @@
     display: flex;
     width: 60%;
     margin: 0 auto;
+    justify-content: center;
 
     .col {
       display: flex;
@@ -44,10 +50,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-
         justify-content: space-between;
         align-items: center;
         padding: 1.5rem 1rem;
+        cursor: pointer;
       }
 
       &-title {
@@ -61,5 +67,11 @@
         flex-direction: column;
       }
     }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .activities-container .activities-cards {
+    width: 100%;
   }
 }

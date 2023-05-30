@@ -1,0 +1,122 @@
+:host {
+  min-height: calc(100% - 209.88px);
+  display: block;
+}
+
+.games-container {
+  padding: 1.2rem;
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+
+    .breadcrumb-item + .breadcrumb-item::before {
+      color: var(--gray-04);
+      margin-bottom: 0.3rem;
+    }
+
+    img {
+      width: 3rem;
+      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin: 0;
+      color: var(--gray-04);
+      font-size: 1.3rem;
+    }
+  }
+
+  .games-cards {
+    display: flex;
+    width: 60%;
+    margin: 0 auto;
+    justify-content: center;
+
+    .col {
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      width: 18rem;
+      height: 18rem;
+      background-color: var(--blue-03);
+      color: var(--white);
+      border-radius: 40px;
+      box-shadow: 4px 3px 12px -4px var(--box-shadow-02);
+
+      &-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 1rem;
+        cursor: pointer;
+      }
+
+      &-title {
+        margin-top: 1.3rem;
+      }
+
+      &-details {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      &.active {
+        background-color: var(--blue-04);
+      }
+    }
+  }
+
+  .game-painel {
+    margin-top: 4rem;
+    background-color: var(--green-02);
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+
+    .game-type {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 2rem;
+        margin-right: 0.8rem;
+      }
+
+      h5 {
+        margin: unset;
+      }
+    }
+
+    .card {
+      height: 35rem;
+      margin-top: 1rem;
+      border-radius: 20px;
+    }
+  }
+
+  .game-rating {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+
+    img {
+      width: 3rem;
+    }
+
+    h5 {
+      margin: unset;
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .games-container .games-cards {
+    width: 100%;
+  }
+}
