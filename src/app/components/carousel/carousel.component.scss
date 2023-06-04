@@ -2,6 +2,19 @@
   width: 90%;
   margin: 0 auto;
 
+  .carousel-indicators {
+    bottom: -35px;
+    margin-bottom: 0;
+
+    button {
+      width: 10px;
+      height: 10px;
+      border: 1px solid var(--gray-03);
+      border-radius: 100%;
+      background-color: var(--gray-03);
+    }
+  }
+
   .carousel-inner {
     border-radius: 10px;
     box-shadow: 2px 1px 23px -6px var(--box-shadow-02);

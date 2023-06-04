@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ActivitiesDataService } from 'src/app/services/activities.data.service';
 
 @Component({
   selector: 'app-activities',
@@ -6,44 +8,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./activities.component.scss'],
 })
 export class ActivitiesComponent {
-  activities = [
-    {
-      src: 'assets/images/animals.png',
-      portugueseName: 'Animais',
-      englishName: 'Animals',
-      width: '12rem',
-    },
-    {
-      src: 'assets/images/colors.png',
-      portugueseName: 'Cores',
-      englishName: 'Colors',
-      width: '9rem',
-    },
-    {
-      src: 'assets/images/fruits.png',
-      portugueseName: 'Frutas',
-      englishName: 'Fruits',
-      width: '10rem',
-    },
-    {
-      src: 'assets/images/numbers.png',
-      portugueseName: 'Números',
-      englishName: 'Numbers',
-      width: '9rem',
-    },
-    {
-      src: 'assets/images/alphabet.png',
-      portugueseName: 'Alfabeto',
-      englishName: 'Alphabet',
-      width: '10rem',
-    },
-    {
-      src: 'assets/images/mathematical-symbols.png',
-      portugueseName: 'Símbolos Matemáticos',
-      englishName: 'Mathematical Symbols',
-      width: '10rem',
-    },
-  ];
+  activities = this.activitiesDataService.activities;
 
-  constructor() {}
+  constructor(
+    private activitiesDataService: ActivitiesDataService,
+    private router: Router
+  ) {}
+
+  selectActivity(key: string): void {
+    this.router.navigate(['/activities/categories/', key]);
+  }
 }

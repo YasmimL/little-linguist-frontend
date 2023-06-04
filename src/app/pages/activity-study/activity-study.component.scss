@@ -1,0 +1,86 @@
+:host {
+  min-height: calc(100% - 209.88px);
+  display: block;
+}
+
+.category-study-container {
+  padding: 1.2rem;
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+
+    .breadcrumb-item + .breadcrumb-item::before {
+      color: var(--gray-04);
+      margin-bottom: 0.3rem;
+    }
+
+    img {
+      width: 4.5rem;
+      margin-right: 1rem;
+    }
+
+    p {
+      margin: 0;
+      color: var(--gray-04);
+      font-size: 1.3rem;
+    }
+  }
+
+  .words-cards {
+    display: flex;
+    width: 60%;
+    margin: 0 auto;
+    justify-content: space-between;
+    padding: 6rem;
+
+    .card {
+      background-color: var(--white);
+      border: 3px solid var(--gray-01);
+      border-radius: 40px;
+
+      &-body {
+        display: flex;
+        padding: 0.8rem 0.8rem;
+        justify-content: space-between;
+        position: relative;
+
+        .card-details {
+          display: flex;
+          justify-content: center;
+
+          img {
+            margin-right: 0.5rem;
+          }
+        }
+
+        .button-sound {
+          display: flex;
+          align-items: flex-end;
+          position: absolute;
+          bottom: 6px;
+          right: 12px;
+          cursor: pointer;
+
+          img {
+            width: 3rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  .category-study-container .words-cards {
+    .card {
+      width: 24rem;
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .category-study-container .words-cards {
+    width: 100%;
+  }
+}
