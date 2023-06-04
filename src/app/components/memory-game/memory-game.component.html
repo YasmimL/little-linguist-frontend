@@ -1,0 +1,32 @@
+<div class="memory-game-container">
+  <div class="image-container">
+    <ng-container *ngIf="gameStatus === GameStatus.BEGINNING">
+      <img class="game-background" src="assets/images/memory-game.png" />
+      <img
+        class="game-button play-button"
+        src="assets/images/play-button.png"
+        (click)="onClickStartGame()"
+      />
+    </ng-container>
+
+    <ng-container *ngIf="gameStatus === GameStatus.INSTRUCTIONS">
+      <img class="game-background" src="assets/images/instructions.png" />
+    </ng-container>
+
+    <ng-container *ngIf="gameStatus === GameStatus.PLAYING">
+      <img class="game-background" src="assets/images/playing-background.png" />
+      <div class="cards-container">
+        <app-memory-game-card
+          *ngFor="let card of cards"
+          [card]="card"
+          [cardSelected]="shouldShowCard(card)"
+          (click)="selectCard(card)"
+        ></app-memory-game-card>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="gameStatus === GameStatus.FINISHED">
+      <img class="game-background" src="assets/images/playing-background.png" />
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+.memory-game-container {
+  display: flex;
+  justify-content: center;
+
+  .image-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 6px solid var(--gray-04);
+    height: 38rem;
+
+    .game-background {
+      width: 55rem;
+    }
+
+    .game-button {
+      position: absolute;
+    }
+
+    .play-button {
+      width: 12rem;
+      top: 35%;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+    }
+
+    .cards-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-column-gap: 10px;
+      grid-row-gap: 10px;
+
+      app-memory-game-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}

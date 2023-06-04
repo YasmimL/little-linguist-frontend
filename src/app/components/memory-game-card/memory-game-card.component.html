@@ -1,0 +1,21 @@
+<div
+  class="memmory-game-card-container"
+  *ngIf="card"
+  [ngClass]="{ 'card-selected': cardSelected }"
+>
+  <img src="assets/images/card.png" />
+
+  <div class="card-front"></div>
+  <div class="card-back">
+    <ng-container *ngIf="card.type === 'image'">
+      <img class="card-image" [src]="card.src" />
+    </ng-container>
+
+    <ng-container *ngIf="card.type === 'word'">
+      <div class="card-word-container">
+        <h5>{{ card.word }}</h5>
+        <img class="" src="assets/images/sound.png" />
+      </div>
+    </ng-container>
+  </div>
+</div>

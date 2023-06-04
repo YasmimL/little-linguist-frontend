@@ -30,7 +30,7 @@
         <img src="{{ games[current].src }}" />
         <h5>{{ games[current].portugueseName }}</h5>
       </div>
-      <div class="card"></div>
+      <app-memory-game *ngIf="current === 1"></app-memory-game>
     </div>
     <div class="game-rating">
       <img src="assets/images/rating.png" />
