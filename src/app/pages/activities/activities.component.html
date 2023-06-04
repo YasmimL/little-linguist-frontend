@@ -8,7 +8,7 @@
   <div class="activities-cards">
     <div class="row row-cols-1 row-cols-md-3 g-5">
       <div class="col" *ngFor="let activity of activities; index as i">
-        <div class="card">
+        <div class="card" (click)="selectActivity(activity.key)">
           <div class="card-body">
             <img
               src="{{ activities[i].src }}"

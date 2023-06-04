@@ -1,17 +1,71 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import { ActivityCategoryComponent } from './activity-category.component';
 
 describe('ActivityCategoryComponent', () => {
   let component: ActivityCategoryComponent;
   let fixture: ComponentFixture<ActivityCategoryComponent>;
+  let activatedRoute: ActivatedRoute;
+  let router: Router;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ActivityCategoryComponent ]
-    })
-    .compileComponents();
+    const activitiesDataServiceSpy = jasmine.createSpyObj(
+      'ActivitiesDataService',
+      ['getActivities'],
+      {
+        activities: [
+          {
+            key: 'animals',
+            src: 'assets/images/animals.png',
+            portugueseName: 'Animais',
+            englishName: 'Animals',
+            width: '12rem',
+            words: [
+              {
+                key: 'cat',
+                src: 'assets/images/cat.png',
+                portugueseName: 'Gato',
+                englishName: 'Cat',
+                width: '5.326rem',
+              },
+              {
+                key: 'dog',
+                src: 'assets/images/dog.png',
+                portugueseName: 'Cachorro',
+                englishName: 'Dog',
+                width: '6rem',
+              },
+            ],
+          },
+        ],
+      }
+    );
 
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [ActivityCategoryComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { paramMap: of({ get: () => 'animals' }) },
+        },
+        {
+          provide: Router,
+          useValue: jasmine.createSpyObj('Router', ['navigate']),
+        },
+      ],
+    }).compileComponents();
+
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(ActivityCategoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -19,5 +73,18 @@ describe('ActivityCategoryComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get the route key and set the activity', fakeAsync(() => {
+    component.getRouteKey();
+    tick();
+    expect(component.activity?.key).toEqual('animals');
+  }));
+
+  it('should navigate to the correct category', () => {
+    component.selectCategory('animals');
+    expect(router.navigate).toHaveBeenCalledWith([
+      '/activities/categories/animals/study',
+    ]);
   });
 });

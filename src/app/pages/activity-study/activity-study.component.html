@@ -1,0 +1,32 @@
+<div class="category-study-container" *ngIf="activity">
+  <div class="breadcrumb">
+    <img src="{{ activity.src }}" width="6rem" />
+    <h3 class="breadcrumb-item" aria-current="page">
+      {{ activity.portugueseName }}
+    </h3>
+    <p class="breadcrumb-item" aria-current="page">
+      {{ activity.englishName }}
+    </p>
+  </div>
+
+  <div class="words-cards">
+    <div class="row row-cols-1 row-cols-md-3 g-5">
+      <div class="col" *ngFor="let words of activity.words; index as i">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-details">
+              <img src="{{ words.src }}" [style]="{ width: words.width }" />
+              <div>
+                <h4 class="card-title">{{ words.portugueseName }}</h4>
+                <h6>{{ words.englishName }}</h6>
+              </div>
+            </div>
+            <div class="button-sound">
+              <img src="assets/images/sound.png" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
