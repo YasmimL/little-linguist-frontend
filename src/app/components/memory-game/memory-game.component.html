@@ -11,10 +11,16 @@
 
     <ng-container *ngIf="gameStatus === GameStatus.INSTRUCTIONS">
       <img class="game-background" src="assets/images/instructions.png" />
+      <img
+        class="game-button play"
+        src="assets/images/play.png"
+        (click)="startGame()"
+      />
     </ng-container>
 
     <ng-container *ngIf="gameStatus === GameStatus.PLAYING">
       <img class="game-background" src="assets/images/playing-background.png" />
+      <span class="game-time">Tempo: {{ time }}s</span>
       <div class="cards-container">
         <app-memory-game-card
           *ngFor="let card of cards"
@@ -26,7 +32,27 @@
     </ng-container>
 
     <ng-container *ngIf="gameStatus === GameStatus.FINISHED">
-      <img class="game-background" src="assets/images/playing-background.png" />
+      <img class="game-background" src="assets/images/memory-game.png" />
+      <div class="game-result" *ngIf="gameResult?.result === 'win'">
+        <p>Parabéns, você conseguiu!</p>
+        <div class="punctuation">
+          <span>Pontuação:</span>
+          <span>{{ gameResult?.score }}</span>
+          <span>pontos</span>
+        </div>
+      </div>
+      <div class="game-result" *ngIf="gameResult?.result === 'lose'">
+        <p>Não foi dessa vez!</p>
+        <div class="advice">
+          <span>Vamos lá, não desista e </span>
+          <span>tente novamente!</span>
+        </div>
+      </div>
+      <img
+        class="game-button restart-button"
+        src="assets/images/restart-button.png"
+        (click)="restartGame()"
+      />
     </ng-container>
   </div>
 </div>

@@ -3,6 +3,11 @@ import { GameStatus } from 'src/app/enum/game-status.enum';
 import { Card } from 'src/app/models/card';
 import { shuffle } from 'src/app/utils/shuffle';
 
+interface GameResult {
+  result: 'win' | 'lose';
+  score: number;
+}
+
 @Component({
   selector: 'app-memory-game',
   templateUrl: './memory-game.component.html',
@@ -11,8 +16,11 @@ import { shuffle } from 'src/app/utils/shuffle';
 export class MemoryGameComponent {
   hits: string[] = [];
   selectedCards: Card[] = [];
-
+  time: number = 120;
+  timerId?: number;
+  gameResult: GameResult | null = null;
   gameStatus: GameStatus = GameStatus.BEGINNING;
+
   animals = [
     { key: 'dog', word: 'Dog' },
     { key: 'cat', word: 'Cat' },
@@ -46,13 +54,24 @@ export class MemoryGameComponent {
 
   onClickStartGame(): void {
     this.gameStatus = GameStatus.INSTRUCTIONS;
-    setTimeout(() => {
-      this.startGame();
-    }, 5000);
   }
 
   startGame(): void {
     this.gameStatus = GameStatus.PLAYING;
+    this.timerId = window.setInterval(() => {
+      this.time--;
+      if (this.time === 0) {
+        this.finishGame();
+      }
+    }, 1000);
+  }
+
+  restartGame(): void {
+    this.time = 120;
+    this.hits = [];
+    this.selectedCards = [];
+    this.gameResult = null;
+    this.startGame();
   }
 
   shouldShowCard(card: Card): boolean {
@@ -90,8 +109,19 @@ export class MemoryGameComponent {
 
     if (this.hits.length === Object.keys(this.animals).length) {
       setTimeout(() => {
-        this.gameStatus = GameStatus.FINISHED;
+        this.finishGame();
       }, 800);
     }
+  }
+
+  finishGame(): void {
+    clearInterval(this.timerId);
+    this.gameStatus = GameStatus.FINISHED;
+
+    this.gameResult = {
+      result:
+        this.hits.length === Object.keys(this.animals).length ? 'win' : 'lose',
+      score: this.time * 10 + this.hits.length * 20,
+    };
   }
 }

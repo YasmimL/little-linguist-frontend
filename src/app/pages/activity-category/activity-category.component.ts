@@ -50,7 +50,6 @@ export class ActivityCategoryComponent implements OnInit {
   selectCategory(key: string, index: number): void {
     if (index === 1) {
       this.router.navigate([`/activities/categories/${key}/study`]);
-    } else {
     }
   }
 }
