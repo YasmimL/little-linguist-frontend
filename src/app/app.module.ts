@@ -10,6 +10,8 @@ import { ActivityCategoryComponent } from './pages/activity-category/activity-ca
 import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ActivityStudyComponent } from './pages/activity-study/activity-study.component';
+import { MemoryGameComponent } from './components/memory-game/memory-game.component';
+import { MemoryGameCardComponent } from './components/memory-game-card/memory-game-card.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { ActivityStudyComponent } from './pages/activity-study/activity-study.co
     NavbarComponent,
     CarouselComponent,
     ActivityStudyComponent,
+    MemoryGameComponent,
+    MemoryGameCardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

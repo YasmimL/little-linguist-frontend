@@ -82,7 +82,7 @@ describe('ActivityCategoryComponent', () => {
   }));
 
   it('should navigate to the correct category', () => {
-    component.selectCategory('animals');
+    component.selectCategory('animals', 1);
     expect(router.navigate).toHaveBeenCalledWith([
       '/activities/categories/animals/study',
     ]);
