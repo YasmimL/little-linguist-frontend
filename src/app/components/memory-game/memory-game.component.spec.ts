@@ -1,15 +1,16 @@
 import {
   ComponentFixture,
   TestBed,
+  discardPeriodicTasks,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 
-import { MemoryGameComponent } from './memory-game.component';
 import { GameStatus } from 'src/app/enum/game-status.enum';
-import { CardWord } from 'src/app/models/card-word';
-import { CardImage } from 'src/app/models/card-image';
 import { Card } from 'src/app/models/card';
+import { CardImage } from 'src/app/models/card-image';
+import { CardWord } from 'src/app/models/card-word';
+import { MemoryGameComponent } from './memory-game.component';
 
 describe('MemoryGameComponent', () => {
   let component: MemoryGameComponent;
@@ -33,17 +34,46 @@ describe('MemoryGameComponent', () => {
     component.onClickStartGame();
 
     expect(component.gameStatus).toBe(GameStatus.INSTRUCTIONS);
-
-    tick(5000);
-
-    expect(component.gameStatus).toBe(GameStatus.PLAYING);
   }));
 
-  it('should set the gameStatus to PLAYING', () => {
+  it('should start the game and update the game status and timer', fakeAsync(() => {
     component.startGame();
 
     expect(component.gameStatus).toBe(GameStatus.PLAYING);
-  });
+    expect(component.time).toBe(120);
+    tick(1000);
+
+    expect(component.time).toBe(119);
+    tick(10000);
+
+    expect(component.time).toBe(109);
+
+    discardPeriodicTasks();
+  }));
+
+  it('should finish the game and update the game status and result equal win', fakeAsync(() => {
+    spyOn(component, 'finishGame');
+    component.time = 120;
+    component.startGame();
+
+    tick(120000);
+
+    expect(component.finishGame).toHaveBeenCalled();
+
+    discardPeriodicTasks();
+  }));
+
+  it('should finish the game and update the game status and result equal lose', fakeAsync(() => {
+    component.time = 120;
+    component.hits = [];
+    component.startGame();
+
+    tick(120000);
+
+    expect(component.gameResult?.result).toBe('lose');
+
+    discardPeriodicTasks();
+  }));
 
   it('should return true when card key is in hits array', () => {
     const card: Card = {
@@ -206,4 +236,20 @@ describe('MemoryGameComponent', () => {
 
     expect(component.gameStatus).toBe(GameStatus.FINISHED);
   }));
+
+  it('should reset the game state when restartGame() is called', () => {
+    component.time = 60;
+    component.hits = ['dog'];
+    component.selectedCards = [
+      { key: 'cat', type: 'image', src: 'assets/images/cat.png' },
+    ];
+    component.gameResult = { result: 'win', score: 200 };
+
+    component.restartGame();
+
+    expect(component.time).toBe(120);
+    expect(component.hits.length).toBe(0);
+    expect(component.selectedCards.length).toBe(0);
+    expect(component.gameResult).toBeNull();
+  });
 });

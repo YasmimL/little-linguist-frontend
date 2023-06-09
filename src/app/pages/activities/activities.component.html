@@ -8,7 +8,7 @@
   <div class="activities-cards">
     <div class="row row-cols-1 row-cols-md-3 g-5">
       <div class="col" *ngFor="let activity of activities; index as i">
-        <div class="card" (click)="selectActivity(activity.key)">
+        <div class="card" (click)="selectActivity(activity, i)">
           <div class="card-body">
             <img
               src="{{ activities[i].src }}"
@@ -17,6 +17,37 @@
             <div class="card-details">
               <h5 class="card-title">{{ activities[i].portugueseName }}</h5>
               <h6>{{ activities[i].englishName }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="activities-category-container" *ngIf="current !== -1">
+  <div class="breadcrumb">
+    <img src="{{ activities[current].src }}" width="6rem" />
+    <h3 class="breadcrumb-item" aria-current="page">
+      {{ activities[current].portugueseName }}
+    </h3>
+    <p class="breadcrumb-item" aria-current="page">
+      {{ activities[current].englishName }}
+    </p>
+  </div>
+
+  <div class="categories-cards">
+    <div class="row row-cols-1 row-cols-md-2 g-6">
+      <div class="col" *ngFor="let category of categories; index as i">
+        <div class="card" (click)="selectCategory(activity!.key, i)">
+          <div class="card-body">
+            <img
+              src="{{ categories[i].src }}"
+              [style]="{ width: categories[i].width }"
+            />
+            <div class="card-details">
+              <h5 class="card-title">{{ categories[i].portugueseName }}</h5>
+              <h6>{{ categories[i].englishName }}</h6>
             </div>
           </div>
         </div>
