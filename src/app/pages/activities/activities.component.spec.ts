@@ -1,4 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  flush,
+  tick,
+} from '@angular/core/testing';
 
 import { ActivitiesComponent } from './activities.component';
 import { Router } from '@angular/router';
@@ -29,11 +35,18 @@ describe('ActivitiesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call the selectActivity method', fakeAsync(() => {
+    const button = fixture.debugElement.nativeElement.querySelector('.card');
+    tick(200);
+
+    button.click();
+    expect(component.current).toBe(0);
+
+    flush();
+  }));
+
   it('should navigate to the correct category', () => {
-    component.selectActivity('animals');
-    expect(router.navigate).toHaveBeenCalledWith([
-      '/activities/categories/',
-      'animals',
-    ]);
+    component.selectCategory('animals', 1);
+    expect(router.navigate).toHaveBeenCalledWith(['/activities/animals/study']);
   });
 });
