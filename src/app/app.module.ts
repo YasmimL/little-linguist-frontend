@@ -27,7 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     MemoryGameCardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-  providers: [UserService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

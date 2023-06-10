@@ -3,7 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserService {
   private usersUrl: string;
 
@@ -15,7 +17,7 @@ export class UserService {
     return this.http.get<User[]>(this.usersUrl);
   }
 
-  public save(user: User) {
+  public save(user: User): Observable<User> {
     return this.http.post<User>(this.usersUrl, user);
   }
 }
