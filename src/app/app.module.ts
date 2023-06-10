@@ -11,6 +11,8 @@ import { ActivitiesComponent } from './pages/activities/activities.component';
 import { ActivityStudyComponent } from './pages/activity-study/activity-study.component';
 import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
+import { UserService } from './services/user.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,8 +26,8 @@ import { HomeComponent } from './pages/home/home.component';
     MemoryGameComponent,
     MemoryGameCardComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  providers: [UserService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
