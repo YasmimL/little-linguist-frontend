@@ -11,6 +11,8 @@ import { ActivitiesComponent } from './pages/activities/activities.component';
 import { ActivityStudyComponent } from './pages/activity-study/activity-study.component';
 import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ModalLoginComponent } from './components/modal-login/modal-login.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -23,9 +25,10 @@ import { HomeComponent } from './pages/home/home.component';
     ActivityStudyComponent,
     MemoryGameComponent,
     MemoryGameCardComponent,
+    ModalLoginComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
-  providers: [],
+  providers: [BsModalService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

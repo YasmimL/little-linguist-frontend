@@ -1,0 +1,32 @@
+<ng-template #modalTemplate class="modal-login-template">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Entrar</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-images">
+      <img
+        *ngFor="let image of images; index as i"
+        src="{{ image.src }}"
+        [ngClass]="{ active: i === current }"
+        (click)="selectImage(i)"
+      />
+    </div>
+
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Apelido" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="modalRef?.hide()">
+      Entrar
+    </button>
+  </div>
+</ng-template>
