@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { GameStatus } from 'src/app/enum/game-status.enum';
 import { Card } from 'src/app/models/card';
+import { CardWord } from 'src/app/models/card-word';
+import { GamesPoints } from 'src/app/models/games-points';
+import { RankingService } from 'src/app/services/ranking.service';
+import { UserDataService } from 'src/app/services/user.data.service';
 import { shuffle } from 'src/app/utils/shuffle';
 
 interface GameResult {
@@ -52,7 +56,7 @@ export class MemoryGameComponent {
           type: 'word',
           key: animal.key,
           word: animal.word,
-          wordAudio: `assets/images/${animal.key}.mp3`,
+          wordAudio: `assets/audio/${animal.key}.m4a`,
         },
       ];
     })
@@ -61,6 +65,11 @@ export class MemoryGameComponent {
   get GameStatus() {
     return GameStatus;
   }
+
+  constructor(
+    private rankingService: RankingService,
+    private userDataService: UserDataService
+  ) {}
 
   onClickStartGame(): void {
     this.gameStatus = GameStatus.INSTRUCTIONS;
@@ -100,6 +109,14 @@ export class MemoryGameComponent {
       return;
     }
 
+    if (this.selectedCards.length === 1) {
+      const [selectedCard] = this.selectedCards;
+
+      if (selectedCard.key === card.key && selectedCard.type === card.type) {
+        return;
+      }
+    }
+
     this.selectedCards.push(card);
 
     if (this.selectedCards.length === 1) {
@@ -137,6 +154,8 @@ export class MemoryGameComponent {
         this.hits.length === Object.keys(this.animals).length ? 'win' : 'lose',
       score: this.time * 10 + this.hits.length * 20,
     };
+
+    this.updateGamePoints();
   }
 
   playNotification(
@@ -147,5 +166,32 @@ export class MemoryGameComponent {
       | 'game-over'
   ) {
     new Audio(`assets/audio/${audioKey}.wav`).play();
+  }
+
+  updateGamePoints(): void {
+    if (this.userDataService.user) {
+      const { nickname } = this.userDataService.user;
+      const gamePoint = new GamesPoints(
+        nickname,
+        0,
+        this.gameResult!.score,
+        0,
+        0,
+        this.userDataService.user
+      );
+      this.rankingService.update(gamePoint, nickname).subscribe(() => {
+        this.userDataService.refreshRanking.emit('memoryGame');
+      });
+    }
+  }
+
+  onPlayAudio(card: Card): void {
+    const foundCard = this.cards.find(
+      (it) => it.key === card.key && it.type === 'word'
+    );
+
+    if (foundCard) {
+      new Audio((foundCard as CardWord).wordAudio).play();
+    }
   }
 }

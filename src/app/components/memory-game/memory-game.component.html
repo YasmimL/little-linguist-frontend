@@ -27,6 +27,7 @@
           [card]="card"
           [cardSelected]="shouldShowCard(card)"
           (click)="selectCard(card)"
+          (playAudio)="onPlayAudio(card)"
         ></app-memory-game-card>
       </div>
     </ng-container>
@@ -56,3 +57,5 @@
     </ng-container>
   </div>
 </div>
+
+<app-confetti [render]="gameResult?.result === 'win'"></app-confetti>

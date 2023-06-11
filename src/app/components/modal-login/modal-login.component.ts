@@ -21,11 +21,11 @@ export class ModalLoginComponent implements AfterViewInit {
   modalRef?: BsModalRef;
   current: number = 0;
   images = [
-    { key: 'octopus', src: 'assets/images/login-img1.png' },
-    { key: 'panda', src: 'assets/images/login-img2.png' },
-    { key: 'lion', src: 'assets/images/login-img3.png' },
-    { key: 'unicorn', src: 'assets/images/login-img4.png' },
-    { key: 'raccoon', src: 'assets/images/login-img5.png' },
+    { key: 'octopus', src: 'assets/images/octopus.png' },
+    { key: 'panda', src: 'assets/images/panda.png' },
+    { key: 'lion', src: 'assets/images/lion.png' },
+    { key: 'unicorn', src: 'assets/images/unicorn.png' },
+    { key: 'raccoon', src: 'assets/images/raccoon.png' },
   ];
 
   @ViewChild('modalTemplate', { read: TemplateRef })
@@ -56,6 +56,8 @@ export class ModalLoginComponent implements AfterViewInit {
     if (this.modalTemplate) {
       this.modalRef = this.modalService.show(this.modalTemplate, {
         class: 'modal-dialog-centered',
+        keyboard: false,
+        closeInterceptor: () => new Promise((_, reject) => reject()),
       });
     }
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { User } from '../models/user';
 
 @Injectable({
@@ -6,4 +6,5 @@ import { User } from '../models/user';
 })
 export class UserDataService {
   user?: User;
+  refreshRanking = new EventEmitter<string>();
 }

@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 
@@ -11,9 +12,8 @@ import {
   templateUrl: './confetti.component.html',
   styleUrls: ['./confetti.component.scss'],
 })
-export class ConfettiComponent implements AfterViewInit {
+export class ConfettiComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas', { static: true }) canvas?: ElementRef;
-
   _renderConfetti = false;
   @Input('render') set renderConfetti(render: boolean) {
     this._renderConfetti = render;
@@ -30,6 +30,12 @@ export class ConfettiComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     if (this.canvas) {
       document.body.appendChild(this.canvas.nativeElement);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.canvas) {
+      document.body.removeChild(this.canvas.nativeElement);
     }
   }
 

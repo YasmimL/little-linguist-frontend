@@ -14,7 +14,11 @@
     <ng-container *ngIf="card.type === 'word'">
       <div class="card-word-container">
         <h5>{{ card.word }}</h5>
-        <img class="" src="assets/images/sound.png" />
+        <img
+          class=""
+          src="assets/images/sound.png"
+          (click)="onClickPlayAudio($event)"
+        />
       </div>
     </ng-container>
   </div>
