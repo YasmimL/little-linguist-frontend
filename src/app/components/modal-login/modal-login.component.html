@@ -11,21 +11,33 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="login-images">
-      <img
-        *ngFor="let image of images; index as i"
-        src="{{ image.src }}"
-        [ngClass]="{ active: i === current }"
-        (click)="selectImage(i)"
-      />
-    </div>
+    <form [formGroup]="userForm">
+      <div class="login-images">
+        <img
+          *ngFor="let image of images; index as i"
+          src="{{ image.src }}"
+          [ngClass]="{ active: i === current }"
+          (click)="selectImage(i)"
+        />
+      </div>
 
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Apelido" />
-    </div>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Apelido"
+          formControlName="nickName"
+        />
+      </div>
+    </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" (click)="modalRef?.hide()">
+    <button
+      type="button"
+      class="btn btn-default"
+      (click)="createUser()"
+      [disabled]="userForm.invalid || saving"
+    >
       Entrar
     </button>
   </div>

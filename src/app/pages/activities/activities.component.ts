@@ -37,7 +37,9 @@ export class ActivitiesComponent {
     this.activity = activity;
 
     setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      document
+        .querySelector('.activities-category-container')
+        ?.scrollIntoView({ behavior: 'smooth' });
     }, 200);
   }
 
