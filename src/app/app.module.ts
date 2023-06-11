@@ -13,6 +13,8 @@ import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
 import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ModalLoginComponent } from './components/modal-login/modal-login.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -25,9 +27,10 @@ import { HttpClientModule } from '@angular/common/http';
     ActivityStudyComponent,
     MemoryGameComponent,
     MemoryGameCardComponent,
+    ModalLoginComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-  providers: [],
+  providers: [BsModalService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
