@@ -15,6 +15,7 @@ import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalLoginComponent } from './components/modal-login/modal-login.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     MemoryGameComponent,
     MemoryGameCardComponent,
     ModalLoginComponent,
+    RankingComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [BsModalService],

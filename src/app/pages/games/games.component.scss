@@ -70,6 +70,7 @@
 
       &.active {
         background-color: var(--blue-04);
+        color: var(--black);
       }
     }
   }
@@ -91,20 +92,6 @@
       h5 {
         margin: unset;
       }
-    }
-  }
-
-  .game-rating {
-    display: flex;
-    align-items: center;
-    margin-top: 2rem;
-
-    img {
-      width: 3rem;
-    }
-
-    h5 {
-      margin: unset;
     }
   }
 }

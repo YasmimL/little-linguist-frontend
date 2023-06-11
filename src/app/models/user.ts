@@ -1,4 +1,3 @@
 export class User {
-  nickname: string;
-  avatar: string;
+  constructor(public nickname: string, public avatar: string) {}
 }
