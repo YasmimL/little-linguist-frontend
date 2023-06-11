@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class GamesComponent {
   current: number = -1;
+  gameFinished = false;
 
   games = [
     {
@@ -38,7 +39,18 @@ export class GamesComponent {
   selectGame(index: number): void {
     this.current = index;
     setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      document
+        .querySelector('.game-painel')
+        ?.scrollIntoView({ behavior: 'smooth' });
     }, 200);
+  }
+
+  onGameFinished() {
+    this.gameFinished = true;
+    setTimeout(() => {
+      document
+        .querySelector('.game-ranking')
+        ?.scrollIntoView({ behavior: 'smooth' });
+    }, 10000);
   }
 }

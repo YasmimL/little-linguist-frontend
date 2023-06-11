@@ -81,6 +81,11 @@
         height: 3.5rem;
         border-radius: 10px;
         box-shadow: (0px 0px 10px var(--box-shadow-03));
+
+        &:disabled {
+          opacity: 0.5;
+          border: none;
+        }
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { GameStatus } from 'src/app/enum/game-status.enum';
 import { Card } from 'src/app/models/card';
 import { shuffle } from 'src/app/utils/shuffle';
@@ -14,12 +14,22 @@ interface GameResult {
   styleUrls: ['./memory-game.component.scss'],
 })
 export class MemoryGameComponent {
+  @Output() gameFinished = new EventEmitter<boolean>();
   hits: string[] = [];
   selectedCards: Card[] = [];
   time: number = 120;
   timerId?: number;
   gameResult: GameResult | null = null;
-  gameStatus: GameStatus = GameStatus.BEGINNING;
+  _gameStatus: GameStatus = GameStatus.BEGINNING;
+
+  get gameStatus() {
+    return this._gameStatus;
+  }
+
+  set gameStatus(gameStatus: GameStatus) {
+    this._gameStatus = gameStatus;
+    this.gameFinished.emit(this._gameStatus === GameStatus.FINISHED);
+  }
 
   animals = [
     { key: 'dog', word: 'Dog' },
@@ -61,6 +71,7 @@ export class MemoryGameComponent {
     this.timerId = window.setInterval(() => {
       this.time--;
       if (this.time === 0) {
+        this.playNotification('game-over');
         this.finishGame();
       }
     }, 1000);
@@ -98,16 +109,19 @@ export class MemoryGameComponent {
     const [cardOne, cardTwo] = this.selectedCards;
     if (cardOne.key !== cardTwo.key) {
       setTimeout(() => {
+        this.playNotification('wrong-answer');
         this.selectedCards = [];
       }, 700);
 
       return;
     }
 
+    this.playNotification('correct-answer');
     this.hits.push(card.key);
     this.selectedCards = [];
 
     if (this.hits.length === Object.keys(this.animals).length) {
+      this.playNotification('congratulations');
       setTimeout(() => {
         this.finishGame();
       }, 800);
@@ -123,5 +137,15 @@ export class MemoryGameComponent {
         this.hits.length === Object.keys(this.animals).length ? 'win' : 'lose',
       score: this.time * 10 + this.hits.length * 20,
     };
+  }
+
+  playNotification(
+    audioKey:
+      | 'correct-answer'
+      | 'wrong-answer'
+      | 'congratulations'
+      | 'game-over'
+  ) {
+    new Audio(`assets/audio/${audioKey}.wav`).play();
   }
 }
