@@ -4,37 +4,58 @@
     <h5>Classificação</h5>
   </div>
 
-  <div class="ranking-body">
+  <div class="ranking-body" *ngIf="columnName && ranking && userScore">
     <div class="card">
       <div class="card-body">
         <div class="second">
           <div>
-            <img class="avatar" src="assets/images/login-img2.png" />
+            <img
+              class="avatar"
+              src="assets/images/{{ ranking[1].user.avatar }}.png"
+            />
             <img src="assets/images/second.png" />
           </div>
           <div>
-            <span class="nickname">Cicrano</span>
-            <span class="ponctuation">100</span>
+            <span class="nickname">{{
+              ranking[1] ? ranking[1].nickname : ""
+            }}</span>
+            <span class="ponctuation">{{
+              ranking[1] ? ranking[1][columnName] : 0
+            }}</span>
           </div>
         </div>
         <div class="first">
           <div>
-            <img class="avatar" src="assets/images/login-img1.png" />
+            <img
+              class="avatar"
+              src="assets/images/{{ ranking[0].user.avatar }}.png"
+            />
             <img src="assets/images/first.png" />
           </div>
           <div>
-            <span class="nickname">Fulano</span>
-            <span class="ponctuation">120</span>
+            <span class="nickname">{{
+              ranking[0] ? ranking[0].nickname : ""
+            }}</span>
+            <span class="ponctuation">{{
+              ranking[0] ? ranking[0][columnName] : 0
+            }}</span>
           </div>
         </div>
         <div class="third">
           <div>
-            <img class="avatar" src="assets/images/login-img3.png" />
+            <img
+              class="avatar"
+              src="assets/images/{{ ranking[2].user.avatar }}.png"
+            />
             <img src="assets/images/third.png" />
           </div>
           <div>
-            <span class="nickname">Beltrano</span>
-            <span class="ponctuation">70</span>
+            <span class="nickname">{{
+              ranking[2] ? ranking[2].nickname : ""
+            }}</span>
+            <span class="ponctuation">{{
+              ranking[2] ? ranking[2][columnName] : 0
+            }}</span>
           </div>
         </div>
       </div>
@@ -43,10 +64,10 @@
         <div>
           <div>10</div>
           <div>
-            <img src="assets/images/login-img4.png" />
-            <span>UserNick</span>
+            <img src="assets/images/{{ userScore.user.avatar }}.png" />
+            <span>{{ userScore.nickname }}</span>
           </div>
-          <div>120 pontos</div>
+          <div>{{ userScore[columnName] }} pontos</div>
         </div>
       </div>
     </div>

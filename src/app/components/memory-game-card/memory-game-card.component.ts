@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CardImage } from 'src/app/models/card-image';
 import { CardWord } from 'src/app/models/card-word';
 
@@ -10,4 +10,10 @@ import { CardWord } from 'src/app/models/card-word';
 export class MemoryGameCardComponent {
   @Input() card?: CardImage | CardWord;
   @Input() cardSelected = false;
+  @Output() playAudio = new EventEmitter<void>();
+
+  onClickPlayAudio(event: MouseEvent): void {
+    event.stopPropagation();
+    this.playAudio.emit();
+  }
 }
