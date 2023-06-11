@@ -67,6 +67,11 @@
         justify-content: center;
         flex-direction: column;
       }
+
+      &.active {
+        background-color: var(--blue-04);
+        color: var(--black);
+      }
     }
   }
 }

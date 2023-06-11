@@ -13,6 +13,7 @@ import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ModalLoginComponent } from './components/modal-login/modal-login.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     MemoryGameComponent,
     MemoryGameCardComponent,
     ModalLoginComponent,
+    RankingComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [BsModalService],
