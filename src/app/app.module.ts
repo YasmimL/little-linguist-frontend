@@ -11,6 +11,8 @@ import { ActivitiesComponent } from './pages/activities/activities.component';
 import { ActivityStudyComponent } from './pages/activity-study/activity-study.component';
 import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
+import { UserService } from './services/user.service';
+import { HttpClientModule } from '@angular/common/http';
 import { ModalLoginComponent } from './components/modal-login/modal-login.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
@@ -27,7 +29,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     MemoryGameCardComponent,
     ModalLoginComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [BsModalService],
   bootstrap: [AppComponent],
 })
