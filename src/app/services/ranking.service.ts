@@ -13,7 +13,7 @@ export class RankingService {
     this.gamesUrl = 'http://localhost:8080/games';
   }
 
-  public get3BestUsers(
+  public get3BestUsersAndCurrentUser(
     gameName: string,
     nickName: string
   ): Observable<GamesPoints[]> {

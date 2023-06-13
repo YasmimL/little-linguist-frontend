@@ -19,7 +19,8 @@
       >
     </div>
     <div class="user-profile-wrapper">
-      <img src="assets/icons/person-circle.svg" />
+      <img class="avatar" *ngIf="avatar" src="assets/images/{{ avatar }}.png" />
+      <img *ngIf="!avatar" src="assets/icons/person-circle.svg" />
     </div>
   </div>
 </nav>

@@ -7,6 +7,7 @@ export class GamesPoints {
     public memoryGamePoints: number,
     public hangmanGamePoints: number,
     public puzzleGamePoints: number,
-    public user: User
+    public user: User,
+    public classification?: number
   ) {}
 }

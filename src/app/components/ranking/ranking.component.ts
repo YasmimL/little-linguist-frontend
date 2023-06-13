@@ -39,13 +39,13 @@ export class RankingComponent {
     if (this.userDataService.user) {
       const { nickname } = this.userDataService.user;
       this.columnName = this.gameMapping[gameName] as Columns;
-      forkJoin({
-        ranking: this.rankingService.get3BestUsers(this.columnName, nickname),
-        userScore: this.rankingService.findByNickname(nickname),
-      }).subscribe(({ ranking, userScore }) => {
-        this.ranking = ranking;
-        this.userScore = userScore;
-      });
+      this.rankingService
+        .get3BestUsersAndCurrentUser(this.columnName, nickname)
+        .subscribe((result) => {
+          const [first, second, third, userScore] = result;
+          this.ranking = [first, second, third];
+          this.userScore = userScore;
+        });
     }
   }
 }
