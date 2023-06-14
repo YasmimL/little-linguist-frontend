@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -19,6 +18,7 @@ import { ActivityStudyComponent } from './pages/activity-study/activity-study.co
 import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ConfettiComponent } from './components/confetti/confetti.component';
+import { ActivityExerciseComponent } from './pages/activity-exercise/activity-exercise.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { ConfettiComponent } from './components/confetti/confetti.component';
     ModalLoginComponent,
     RankingComponent,
     ConfettiComponent,
+    ActivityExerciseComponent,
   ],
   imports: [
     BrowserModule,

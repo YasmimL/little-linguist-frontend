@@ -46,6 +46,8 @@ export class ActivitiesComponent {
   selectCategory(key: string, index: number): void {
     if (index === 1) {
       this.router.navigate([`/activities/${key}/study`]);
+    } else if (index === 0) {
+      this.router.navigate([`/activities/${key}/exercise`]);
     }
   }
 }

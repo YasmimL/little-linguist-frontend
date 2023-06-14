@@ -81,7 +81,9 @@ export class ModalLoginComponent implements AfterViewInit {
         this.saving = false;
         console.error(err);
         if (err.status === HttpStatusCode.UnprocessableEntity) {
-          this.toastr.error('Este apelido já existe!', 'Erro!');
+          this.userDataService.user = user;
+          this.modalRef?.hide();
+          this.toastr.success('Bem-vindo de volta!', 'Sucesso!');
         } else {
           this.toastr.error('Ocorreu um erro. Tente novamente!', 'Erro!');
         }

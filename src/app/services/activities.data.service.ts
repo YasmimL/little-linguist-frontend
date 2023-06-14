@@ -5,6 +5,8 @@ import { Activity } from '../models/activity';
   providedIn: 'root',
 })
 export class ActivitiesDataService {
+  hitsByActivity: { [key: string]: number | undefined } = {};
+
   activities: Activity[] = [
     {
       key: 'animals',

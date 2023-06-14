@@ -29,4 +29,8 @@ export class ActivityStudyComponent implements OnInit {
       );
     });
   }
+
+  onPlayAudio(key: string): void {
+    new Audio(`assets/audio/${key}.m4a`).play();
+  }
 }
