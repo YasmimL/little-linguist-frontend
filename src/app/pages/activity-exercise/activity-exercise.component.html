@@ -1,225 +1,243 @@
-<div class="activity-exercise-container">
-  <div class="trial">
-    <div *ngFor="let activity of activities; index as i">
-      <button
-        (click)="selectActivity(i)"
-        [ngClass]="{ active: i === current }"
-        [disabled]="i !== 0"
+<ng-container *ngIf="activity?.key === 'animals'">
+  <div class="activity-exercise-container">
+    <div class="trial">
+      <div
+        class="hitsByActivity"
+        *ngIf="hitsByActivity[0]"
+        [ngClass]="{
+          'one-hit': hitsByActivity[0] === 1,
+          'two-hits': hitsByActivity[0] === 2,
+          'three-hits': hitsByActivity[0] === 3
+        }"
       >
-        {{ activity.number }}
-      </button>
-      <div class="separator" *ngIf="i < 2">
-        <img src="assets/images/path.png" />
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="exercise-container" *ngIf="current !== -1">
-  <div class="card">
-    <div class="card-header">
-      <div class="stars">
         <img
           src="assets/images/star.png"
-          *ngFor="let item of [].constructor(hits); let i = index"
+          *ngFor="let item of [].constructor(hitsByActivity[0]); let i = index"
         />
       </div>
-    </div>
-    <div class="card-body">
-      <ng-container *ngIf="!activityResult">
-        <div *ngIf="currentQuestion === 0" class="first">
-          <p>
-            Verifique se a imagem na carta corresponde <br />
-            ao nome do animal
-          </p>
-          <div class="card-image">
-            <div>
-              <img src="assets/images/cat.png" />
-            </div>
-            <h3>Cat</h3>
-          </div>
-          <div class="alternatives">
-            <div
-              class="alternative"
-              [ngClass]="{
-                wrong: answers[currentQuestion]?.answer === 'wrong',
-                disabled: answers[currentQuestion]
-              }"
-              (click)="selectAlternative('wrong')"
-            >
-              Errado
-            </div>
-            <div
-              class="alternative"
-              [ngClass]="{
-                right: answers[currentQuestion]?.answer === 'right',
-                disabled: answers[currentQuestion]
-              }"
-              (click)="selectAlternative('right')"
-            >
-              Certo
-            </div>
-          </div>
+      <div *ngFor="let activity of activities; index as i">
+        <button
+          (click)="selectActivity(i)"
+          [ngClass]="{ active: i === current }"
+          [disabled]="i !== 0"
+        >
+          {{ activity.number }}
+        </button>
+        <div class="separator" *ngIf="i < 2">
+          <img src="assets/images/path.png" />
         </div>
-
-        <div *ngIf="currentQuestion === 1" class="second">
-          <p>
-            Ligue a palavra em inglês para o significado <br />
-            dela em português
-          </p>
-          <div
-            class="word"
-            draggable="true"
-            (dragstart)="startDrag($event)"
-            (dragend)="endDrag($event)"
-            [ngClass]="{ invisible: answers[currentQuestion] }"
-          >
-            Cow
-          </div>
-          <div class="word-alternatives">
-            <div
-              class="alternative"
-              (drop)="onDrop($event, 'coruja')"
-              (dragover)="allowDrop($event)"
-              [ngClass]="{
-                wrong: answers[currentQuestion]?.answer === 'coruja'
-              }"
-            >
-              Coruja
-            </div>
-            <div
-              class="alternative"
-              (drop)="onDrop($event, 'cachorro')"
-              (dragover)="allowDrop($event)"
-              [ngClass]="{
-                wrong: answers[currentQuestion]?.answer === 'cachorro'
-              }"
-            >
-              Cachorro
-            </div>
-            <div
-              class="alternative"
-              (drop)="onDrop($event, 'vaca')"
-              (dragover)="allowDrop($event)"
-              [ngClass]="{ right: answers[currentQuestion]?.answer === 'vaca' }"
-            >
-              Vaca
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="currentQuestion === 2" class="third">
-          <p>
-            Escute o áudio e selecione a palavra <br />
-            que foi dita nele
-          </p>
-          <div class="audio">
-            <div>
-              <img
-                src="assets/images/sound-button.png"
-                (click)="onPlayAudio('butterfly')"
-              />
-            </div>
-            <div class="alternatives">
-              <div>
-                <div
-                  class="alternative"
-                  [ngClass]="{
-                    wrong: answers[currentQuestion]?.answer === 'dog',
-                    disabled: answers[currentQuestion]
-                  }"
-                  (click)="selectAlternative('dog')"
-                >
-                  Dog
-                </div>
-                <div
-                  class="alternative"
-                  [ngClass]="{
-                    wrong: answers[currentQuestion]?.answer === 'cat',
-                    disabled: answers[currentQuestion]
-                  }"
-                  (click)="selectAlternative('cat')"
-                >
-                  Cat
-                </div>
-              </div>
-              <div>
-                <div
-                  class="alternative"
-                  [ngClass]="{
-                    right: answers[currentQuestion]?.answer === 'butterfly',
-                    disabled: answers[currentQuestion]
-                  }"
-                  (click)="selectAlternative('butterfly')"
-                >
-                  Butterfly
-                </div>
-                <div
-                  class="alternative"
-                  [ngClass]="{
-                    wrong: answers[currentQuestion]?.answer === 'cow',
-                    disabled: answers[currentQuestion]
-                  }"
-                  (click)="selectAlternative('cow')"
-                >
-                  Cow
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="activityResult">
-        <div class="final-screen">
-          <div *ngIf="hits > 0" class="congratulation">
-            <h2>Parabéns!</h2>
-            <p>
-              Você conseguiu finalizar <br />
-              essa fase de atividade!
-            </p>
-          </div>
-          <div *ngIf="hits === 0" class="incentive">
-            <h2>Não foi desta vez!</h2>
-            <p>
-              Vamos lá, não desista e <br />
-              tente novamente!
-            </p>
-          </div>
-
-          <img
-            class="restart-button"
-            src="assets/images/restart.png"
-            (click)="restartActivity()"
-          />
-
-          <img
-            class="close-button"
-            src="assets/images/close.png"
-            (click)="restartActivity()"
-          />
-        </div>
-      </ng-container>
-
-      <div
-        class="arrow arrow-left"
-        *ngIf="currentQuestion > 0 && !activityResult"
-      >
-        <img src="assets/images/arrow-left.png" (click)="previous()" />
-      </div>
-      <div class="arrow arrow-right" *ngIf="currentQuestion !== 2">
-        <img src="assets/images/arrow-right.png" (click)="next()" />
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="progress">
-        <div
-          class="progress-bar"
-          [style]="{ width: 34 * totalAnswered + '%' }"
-        ></div>
       </div>
     </div>
   </div>
-</div>
 
-<app-confetti [render]="activityResult?.result === 'win'"></app-confetti>
+  <div class="exercise-container" *ngIf="current !== -1">
+    <div class="card">
+      <div class="card-header">
+        <div class="stars">
+          <img
+            src="assets/images/star.png"
+            *ngFor="let item of [].constructor(hits); let i = index"
+          />
+        </div>
+      </div>
+      <div class="card-body">
+        <ng-container *ngIf="!activityResult">
+          <div *ngIf="currentQuestion === 0" class="first">
+            <p>
+              Verifique se a imagem na carta corresponde <br />
+              ao nome do animal
+            </p>
+            <div class="card-image">
+              <div>
+                <img src="assets/images/cat.png" />
+              </div>
+              <h3>Cat</h3>
+            </div>
+            <div class="alternatives">
+              <div
+                class="alternative"
+                [ngClass]="{
+                  wrong: answers[currentQuestion]?.answer === 'wrong',
+                  disabled: answers[currentQuestion]
+                }"
+                (click)="selectAlternative('wrong')"
+              >
+                Errado
+              </div>
+              <div
+                class="alternative"
+                [ngClass]="{
+                  right: answers[currentQuestion]?.answer === 'right',
+                  disabled: answers[currentQuestion]
+                }"
+                (click)="selectAlternative('right')"
+              >
+                Certo
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="currentQuestion === 1" class="second">
+            <p>
+              Ligue a palavra em inglês para o significado <br />
+              dela em português
+            </p>
+            <div
+              class="word"
+              draggable="true"
+              (dragstart)="startDrag($event)"
+              (dragend)="endDrag($event)"
+              [ngClass]="{ invisible: answers[currentQuestion] }"
+            >
+              Cow
+            </div>
+            <div class="word-alternatives">
+              <div
+                class="alternative"
+                (drop)="onDrop($event, 'coruja')"
+                (dragover)="allowDrop($event)"
+                [ngClass]="{
+                  wrong: answers[currentQuestion]?.answer === 'coruja'
+                }"
+              >
+                Coruja
+              </div>
+              <div
+                class="alternative"
+                (drop)="onDrop($event, 'cachorro')"
+                (dragover)="allowDrop($event)"
+                [ngClass]="{
+                  wrong: answers[currentQuestion]?.answer === 'cachorro'
+                }"
+              >
+                Cachorro
+              </div>
+              <div
+                class="alternative"
+                (drop)="onDrop($event, 'vaca')"
+                (dragover)="allowDrop($event)"
+                [ngClass]="{
+                  right: answers[currentQuestion]?.answer === 'vaca'
+                }"
+              >
+                Vaca
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="currentQuestion === 2" class="third">
+            <p>
+              Escute o áudio e selecione a palavra <br />
+              que foi dita nele
+            </p>
+            <div class="audio">
+              <div>
+                <img
+                  src="assets/images/sound-button.png"
+                  (click)="onPlayAudio('butterfly')"
+                />
+              </div>
+              <div class="alternatives">
+                <div>
+                  <div
+                    class="alternative"
+                    [ngClass]="{
+                      wrong: answers[currentQuestion]?.answer === 'dog',
+                      disabled: answers[currentQuestion]
+                    }"
+                    (click)="selectAlternative('dog')"
+                  >
+                    Dog
+                  </div>
+                  <div
+                    class="alternative"
+                    [ngClass]="{
+                      wrong: answers[currentQuestion]?.answer === 'cat',
+                      disabled: answers[currentQuestion]
+                    }"
+                    (click)="selectAlternative('cat')"
+                  >
+                    Cat
+                  </div>
+                </div>
+                <div>
+                  <div
+                    class="alternative"
+                    [ngClass]="{
+                      right: answers[currentQuestion]?.answer === 'butterfly',
+                      disabled: answers[currentQuestion]
+                    }"
+                    (click)="selectAlternative('butterfly')"
+                  >
+                    Butterfly
+                  </div>
+                  <div
+                    class="alternative"
+                    [ngClass]="{
+                      wrong: answers[currentQuestion]?.answer === 'cow',
+                      disabled: answers[currentQuestion]
+                    }"
+                    (click)="selectAlternative('cow')"
+                  >
+                    Cow
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="activityResult">
+          <div class="final-screen">
+            <div *ngIf="hits > 0" class="congratulation">
+              <h2>Parabéns!</h2>
+              <p>
+                Você conseguiu finalizar <br />
+                essa fase de atividades!
+              </p>
+            </div>
+            <div *ngIf="hits === 0" class="incentive">
+              <h2>Não foi desta vez!</h2>
+              <p>
+                Vamos lá, não desista e <br />
+                tente novamente!
+              </p>
+            </div>
+
+            <img
+              class="restart-button"
+              src="assets/images/restart.png"
+              (click)="restartActivity()"
+            />
+
+            <img
+              class="close-button"
+              src="assets/images/close.png"
+              (click)="closeActivity()"
+            />
+          </div>
+        </ng-container>
+
+        <div
+          class="arrow arrow-left"
+          *ngIf="currentQuestion > 0 && !activityResult"
+        >
+          <img src="assets/images/arrow-left.png" (click)="previous()" />
+        </div>
+        <div class="arrow arrow-right" *ngIf="currentQuestion !== 2">
+          <img src="assets/images/arrow-right.png" (click)="next()" />
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="progress">
+          <div
+            class="progress-bar"
+            [style]="{ width: 34 * totalAnswered + '%' }"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-confetti [render]="activityResult?.result === 'win'"></app-confetti>
+</ng-container>

@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Activity } from 'src/app/models/activity';
+import { AnimalsActivityRegister } from 'src/app/models/animals-activity-register';
+import { ActivitiesDataService } from 'src/app/services/activities.data.service';
+import { AnimalsActivitiesService } from 'src/app/services/animals-activities.service';
+import { UserDataService } from 'src/app/services/user.data.service';
 
 interface ActivityResult {
   result: 'win' | 'lose';
@@ -10,12 +16,14 @@ interface ActivityResult {
   templateUrl: './activity-exercise.component.html',
   styleUrls: ['./activity-exercise.component.scss'],
 })
-export class ActivityExerciseComponent {
+export class ActivityExerciseComponent implements OnInit {
   activities = [{ number: 1 }, { number: 2 }, { number: 3 }];
   current: number = -1;
   currentQuestion: number = 0;
   hits: number = 0;
   activityResult?: ActivityResult | null = null;
+  animalsActivityRegister!: AnimalsActivityRegister;
+  activity?: Activity;
 
   answersheet: {
     [question: string]: string;
@@ -33,6 +41,10 @@ export class ActivityExerciseComponent {
     2: undefined,
   };
 
+  get hitsByActivity() {
+    return this.activitiesDataService.hitsByActivity;
+  }
+
   get totalAnswered() {
     return Object.keys(this.answers).filter((it) => this.answers[it]).length;
   }
@@ -41,7 +53,27 @@ export class ActivityExerciseComponent {
     return Object.keys(this.answersheet).length;
   }
 
-  constructor() {}
+  constructor(
+    private animalsActivitiesService: AnimalsActivitiesService,
+    private userDataService: UserDataService,
+    private activitiesDataService: ActivitiesDataService,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.getRouteKey();
+    this.findActivityDataByNickname();
+  }
+
+  getRouteKey(): void {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const keyActivity = params.get('key');
+
+      this.activity = this.activitiesDataService.activities.find(
+        (activity) => activity.key === keyActivity
+      );
+    });
+  }
 
   selectActivity(index: number): void {
     this.current = index;
@@ -89,6 +121,8 @@ export class ActivityExerciseComponent {
       result: this.hits > 0 ? 'win' : 'lose',
       totalHits: this.hits,
     };
+
+    this.updateActivityData();
 
     setTimeout(() => {
       if (activityResult.result === 'win') {
@@ -149,6 +183,42 @@ export class ActivityExerciseComponent {
   }
 
   closeActivity(): void {
-    // this.current = 0;
+    this.restartActivity();
+    this.current = -1;
+  }
+
+  updateActivityData(): void {
+    if (this.userDataService.user) {
+      const { nickname } = this.userDataService.user;
+
+      this.animalsActivityRegister = new AnimalsActivityRegister(
+        nickname,
+        this.hits,
+        1,
+        this.hits,
+        0,
+        0,
+        this.userDataService.user
+      );
+
+      this.animalsActivitiesService
+        .update(this.animalsActivityRegister, nickname)
+        .subscribe(() => {
+          this.findActivityDataByNickname();
+        });
+    }
+  }
+
+  findActivityDataByNickname(): void {
+    if (this.userDataService.user) {
+      const { nickname } = this.userDataService.user;
+
+      this.animalsActivitiesService
+        .findByNickname(nickname)
+        .subscribe((activity) => {
+          this.activitiesDataService.hitsByActivity[0] =
+            activity.starsInFirstActivity;
+        });
+    }
   }
 }
