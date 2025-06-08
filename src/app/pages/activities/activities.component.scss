@@ -13,12 +13,12 @@
 
     .breadcrumb-item + .breadcrumb-item::before {
       color: var(--gray-04);
-      margin-bottom: 0.3rem;
+      margin-bottom: 4.8px;
     }
 
     img {
       width: 3rem;
-      margin-right: 1rem;
+      margin-right: 16px;
     }
 
     p {
@@ -58,7 +58,7 @@
       }
 
       &-title {
-        margin-top: 1.3rem;
+        margin-top: 20.8px;
       }
 
       &-details {
@@ -77,7 +77,7 @@
 }
 
 .activities-category-container {
-  margin-top: 4rem;
+  margin-top: 64px;
   background-color: var(--green-02);
 
   .categories-cards {
@@ -115,7 +115,7 @@
       }
 
       &-title {
-        margin-top: 1.3rem;
+        margin-top: 20.8px;
       }
 
       &-details {

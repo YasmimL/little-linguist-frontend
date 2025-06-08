@@ -2,7 +2,7 @@
   .ranking-header {
     display: flex;
     align-items: center;
-    margin-top: 1.6rem;
+    margin-top: 25.6px;
 
     img {
       width: 3rem;
@@ -16,7 +16,7 @@
   .ranking-body {
     display: flex;
     justify-content: center;
-    margin-top: 1.5rem;
+    margin-top: 24px;
 
     .card {
       width: 45rem;
@@ -26,7 +26,7 @@
       &-body {
         display: flex;
         justify-content: space-around;
-        margin-top: 0.4rem;
+        margin-top: 6.4px;
         background-color: var(--green-05);
         border-radius: 14px;
 
@@ -45,7 +45,7 @@
           div:last-child {
             display: flex;
             flex-direction: column;
-            margin-top: 2rem;
+            margin-top: 32px;
             align-items: center;
 
             .nickname {
@@ -128,7 +128,7 @@
             }
 
             span {
-              margin-left: 2rem;
+              margin-left: 32px;
               font-size: 30px;
               font-weight: 600;
             }

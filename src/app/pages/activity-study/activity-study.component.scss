@@ -12,12 +12,12 @@
 
     .breadcrumb-item + .breadcrumb-item::before {
       color: var(--gray-04);
-      margin-bottom: 0.3rem;
+      margin-bottom: 4.8px;
     }
 
     img {
       width: 4.5rem;
-      margin-right: 1rem;
+      margin-right: 16px;
     }
 
     p {
@@ -50,7 +50,7 @@
           justify-content: center;
 
           img {
-            margin-right: 0.5rem;
+            margin-right: 8px;
           }
         }
 

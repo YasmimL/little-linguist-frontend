@@ -9,7 +9,7 @@
   .actions {
     display: flex;
     justify-content: center;
-    margin-top: 4rem;
+    margin-top: 64px;
 
     button {
       display: flex;
@@ -26,16 +26,16 @@
         h5 {
           color: var(--white);
           text-align: initial;
-          margin-left: 0.1rem;
+          margin-left: 1.6px;
         }
 
         &:last-of-type {
-          margin-left: 0.5rem;
+          margin-left: 8px;
         }
       }
 
       &:first-child {
-        margin-right: 2rem;
+        margin-right: 32px;
 
         img {
           width: 4.4rem;
@@ -43,7 +43,7 @@
       }
 
       &:last-child {
-        margin-left: 2rem;
+        margin-left: 32px;
 
         img {
           width: 6rem;
