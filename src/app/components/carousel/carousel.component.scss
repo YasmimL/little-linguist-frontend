@@ -19,4 +19,21 @@
     border-radius: 10px;
     box-shadow: 2px 1px 23px -6px var(--box-shadow-02);
   }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    filter: invert(100%);
+    width: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: unset;
+  }
+
+  .carousel-control-prev {
+    left: -45px;
+  }
+
+  .carousel-control-next {
+    right: -45px;
+  }
 }

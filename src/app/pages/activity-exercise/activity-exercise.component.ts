@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/models/activity';
 import { AnimalsActivityRegister } from 'src/app/models/animals-activity-register';
 import { ActivitiesDataService } from 'src/app/services/activities.data.service';
 import { AnimalsActivitiesService } from 'src/app/services/animals-activities.service';
+import { ScreenReaderAnnouncerService } from 'src/app/services/screen-reader-announcer.service';
 import { UserDataService } from 'src/app/services/user.data.service';
 
 interface ActivityResult {
@@ -24,6 +25,7 @@ export class ActivityExerciseComponent implements OnInit {
   activityResult?: ActivityResult | null = null;
   animalsActivityRegister!: AnimalsActivityRegister;
   activity?: Activity;
+  wordGrabbed: boolean = false;
 
   answersheet: {
     [question: string]: string;
@@ -57,8 +59,17 @@ export class ActivityExerciseComponent implements OnInit {
     private animalsActivitiesService: AnimalsActivitiesService,
     private userDataService: UserDataService,
     private activitiesDataService: ActivitiesDataService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private screenReaderAnnouncerService: ScreenReaderAnnouncerService
   ) {}
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapePress(event: KeyboardEvent) {
+    if (this.wordGrabbed) {
+      this.wordGrabbed = false;
+      this.screenReaderAnnouncerService.postMessage('Movimento cancelado.');
+    }
+  }
 
   ngOnInit(): void {
     this.getRouteKey();
@@ -75,29 +86,61 @@ export class ActivityExerciseComponent implements OnInit {
     });
   }
 
+  focusQuestionStatement(timeout: number = 200) {
+    setTimeout(() => {
+      const questionStatement = document.querySelector(
+        '.selected-question .question-statement'
+      );
+
+      if (questionStatement) {
+        (questionStatement as HTMLHtmlElement)?.focus();
+      }
+    }, timeout);
+  }
+
   selectActivity(index: number): void {
     this.current = index;
 
-    setTimeout(() => {
-      document
-        .querySelector('.activities-category-container')
-        ?.scrollIntoView({ behavior: 'smooth' });
-    }, 200);
+    this.screenReaderAnnouncerService.postMessage(
+      `Atividade ${this.current + 1} selecionada`
+    );
+
+    const exerciseContainer = document.querySelector('.exercise-container');
+
+    if (exerciseContainer) {
+      const scrollIntoExerciseContainer = () =>
+        exerciseContainer.scrollIntoView({
+          behavior: 'smooth',
+        });
+
+      setTimeout(scrollIntoExerciseContainer, 200);
+      this.focusQuestionStatement();
+    }
   }
 
   next(): void {
     if (this.currentQuestion !== 3) {
       this.currentQuestion++;
+      this.focusQuestionStatement();
     }
   }
 
   previous(): void {
     if (this.currentQuestion > 0) {
       this.currentQuestion--;
+      this.focusQuestionStatement();
     }
   }
 
   selectAlternative(answer: string): void {
+    const giveFeedback = (correct: boolean = true) => {
+      const message = `Resposta ${correct ? 'certa' : 'errada'}`;
+      setTimeout(
+        () => this.screenReaderAnnouncerService.postMessage(message),
+        500
+      );
+    };
+
     const correctAnswer = this.answersheet[this.currentQuestion];
     this.answers[this.currentQuestion] = {
       answer,
@@ -107,12 +150,18 @@ export class ActivityExerciseComponent implements OnInit {
     if (this.answers[this.currentQuestion]?.correct) {
       this.playNotification('correct-answer');
       this.hits = this.hits + 1;
+      giveFeedback();
     } else {
       this.playNotification('wrong-answer');
+      giveFeedback(false);
     }
 
     if (this.totalAnswered === this.totalQuestions) {
       this.finishActivity();
+    } else {
+      setTimeout(() => {
+        (document.querySelector('.next-question') as HTMLElement)?.focus();
+      }, 1000);
     }
   }
 
@@ -127,11 +176,25 @@ export class ActivityExerciseComponent implements OnInit {
     setTimeout(() => {
       if (activityResult.result === 'win') {
         this.playNotification('congratulations');
+        setTimeout(() => {
+          this.screenReaderAnnouncerService.postMessage(
+            'Parabéns! Você conseguiu finalizar essa fase de atividades!'
+          );
+        }, 5000);
       } else {
         this.playNotification('game-over');
+        setTimeout(() => {
+          this.screenReaderAnnouncerService.postMessage(
+            'Não foi desta vez! Vamos lá, não desista e tente novamente!'
+          );
+        }, 5000);
       }
       this.activityResult = activityResult;
     }, 1000);
+
+    setTimeout(() => {
+      (document.querySelector('.restart-button') as HTMLElement)?.focus();
+    }, 7000);
   }
 
   playNotification(
@@ -180,6 +243,8 @@ export class ActivityExerciseComponent implements OnInit {
       1: undefined,
       2: undefined,
     };
+
+    this.focusQuestionStatement();
   }
 
   closeActivity(): void {
@@ -220,5 +285,22 @@ export class ActivityExerciseComponent implements OnInit {
             activity.starsInFirstActivity;
         });
     }
+  }
+
+  grabWord() {
+    this.wordGrabbed = !this.wordGrabbed;
+    if (this.wordGrabbed) {
+      this.screenReaderAnnouncerService.postMessage(
+        'A palavra foi selecionada para mover. Vá até o destino e pressione Enter para soltar.'
+      );
+    } else {
+      this.screenReaderAnnouncerService.postMessage('Movimento cancelado.');
+    }
+  }
+
+  selectWord(option: string) {
+    if (!this.wordGrabbed) return;
+    this.selectAlternative(option);
+    this.wordGrabbed = false;
   }
 }

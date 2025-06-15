@@ -1,15 +1,25 @@
 <ng-template #modalTemplate class="modal-login-template">
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Entrar</h4>
+    <h4 class="modal-title pull-left">Escolha seu Personagem e Nome</h4>
   </div>
   <div class="modal-body">
     <form [formGroup]="userForm">
-      <div class="login-images">
+      <div
+        class="login-images"
+        role="listbox"
+        aria-label="Selecione um personagem"
+      >
         <img
+          class="character"
           *ngFor="let image of images; index as i"
-          src="{{ image.src }}"
+          [attr.src]="image.src"
+          [attr.alt]="image.alt"
+          [attr.tabindex]="0"
           [ngClass]="{ active: i === current }"
           (click)="selectImage(i)"
+          (keydown.enter)="selectImage(i)"
+          role="option"
+          [attr.aria-selected]="i === current ? true : false"
         />
       </div>
 
@@ -17,7 +27,7 @@
         <input
           type="text"
           class="form-control"
-          placeholder="Apelido"
+          placeholder="Nome do Personagem"
           formControlName="nickName"
         />
       </div>
@@ -29,6 +39,8 @@
       class="btn btn-default"
       (click)="createUser()"
       [disabled]="userForm.invalid || saving"
+      [attr.tabindex]="0"
+      [attr.aria-disabled]="userForm.invalid || saving"
     >
       Entrar
     </button>

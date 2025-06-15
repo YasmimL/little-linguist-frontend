@@ -1,31 +1,49 @@
-<div class="carousel slide">
+<div class="carousel slide" aria-label="Carrossel de imagens dos jogos">
   <div class="carousel-indicators">
     <button
+      tabindex="-1"
       *ngFor="let _ of images; index as i"
       type="button"
+      [attr.aria-label]="'Ir para o slide ' + (i + 1)"
+      [attr.aria-current]="i === current ? 'true' : null"
       data-bs-target="#carouselExampleIndicators"
       [ngClass]="{ active: i === current }"
       (click)="goToIndex(i)"
     ></button>
   </div>
+
   <div class="carousel-inner" *ngFor="let image of images; index as i">
-    <div class="carousel-item" [ngClass]="{ active: i === current }">
-      <img src="{{ image }}" class="d-block w-100" />
+    <div
+      class="carousel-item"
+      [ngClass]="{ active: i === current }"
+      role="group"
+      [attr.aria-roledescription]="'slide'"
+    >
+      <img
+        [attr.src]="image.url"
+        [attr.alt]="image.alt"
+        class="d-block w-100"
+      />
     </div>
   </div>
+
   <button
     class="carousel-control-prev"
     type="button"
+    [attr.tabindex]="0"
     data-bs-target="#carouselExampleIndicators"
     (click)="previous()"
+    aria-label="Slide anterior"
   >
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
   </button>
   <button
     class="carousel-control-next"
     type="button"
+    [attr.tabindex]="0"
     data-bs-target="#carouselExampleIndicators"
     (click)="next()"
+    aria-label="Próximo slide"
   >
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
   </button>

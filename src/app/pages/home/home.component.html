@@ -1,16 +1,30 @@
 <div class="home-container container">
-  <app-carousel
-    [images]="[
-      'assets/images/slide-game1.png',
-      'assets/images/slide-game2.png',
-      'assets/images/slide-game3.png'
-    ]"
-  ></app-carousel>
+  <section aria-label="Carrossel dos jogos">
+    <h2 class="visually-hidden">Carrossel dos jogos</h2>
+
+    <app-carousel
+      [images]="[
+        {
+          url: 'assets/images/slide-game1.png',
+          alt: 'Jogo da Memória'
+        },
+        {
+          url: 'assets/images/slide-game2.png',
+          alt: 'Jogo da Forca'
+        },
+        {
+          url: 'assets/images/slide-game3.png',
+          alt: 'Jogo de Cartas'
+        }
+      ]"
+    ></app-carousel>
+  </section>
   <div class="actions">
     <button
       type="button"
       class="btn btn-primary btn-lg"
       routerLink="activities"
+      tabindex="0"
     >
       <img src="assets/images/discover.png" />
       <div class="informations">
@@ -18,7 +32,12 @@
         <h5>Discover</h5>
       </div>
     </button>
-    <button type="button" class="btn btn-primary btn-lg" routerLink="games">
+    <button
+      type="button"
+      class="btn btn-primary btn-lg"
+      routerLink="games"
+      tabindex="0"
+    >
       <img src="assets/images/game.png" />
       <div class="informations">
         <h3>Divirta-se</h3>

@@ -17,7 +17,9 @@
       </div>
       <div *ngFor="let activity of activities; index as i">
         <button
+          attr.aria-label="Iniciar atividade {{ i + 1 }}"
           (click)="selectActivity(i)"
+          (keydown.enter)="selectActivity(i)"
           [ngClass]="{ active: i === current }"
           [disabled]="i !== 0"
         >
@@ -42,60 +44,98 @@
       </div>
       <div class="card-body">
         <ng-container *ngIf="!activityResult">
-          <div *ngIf="currentQuestion === 0" class="first">
-            <p>
-              Verifique se a imagem na carta corresponde <br />
-              ao nome do animal
+          <div
+            *ngIf="currentQuestion === 0"
+            class="first"
+            [ngClass]="{ 'selected-question': currentQuestion === 0 }"
+          >
+            <p tabindex="0" class="question-statement">
+              Verifique se a imagem na carta corresponde ao nome do animal
             </p>
-            <div class="card-image">
+            <div
+              tabindex="0"
+              class="card-image"
+              aria-labelledby="card-image-label"
+            >
               <div>
                 <img src="assets/images/cat.png" />
               </div>
               <h3>Cat</h3>
             </div>
+            <span id="card-image-label" class="visually-hidden">
+              <span>A carta contém a imagem de um gato.</span>
+              O nome do animal na carta é: <span lang="en">Cat</span>
+              <span>Selecione abaixo se está certo ou errado:</span>
+            </span>
+
             <div class="alternatives">
               <div
+                tabindex="0"
+                role="button"
                 class="alternative"
                 [ngClass]="{
                   wrong: answers[currentQuestion]?.answer === 'wrong',
                   disabled: answers[currentQuestion]
                 }"
                 (click)="selectAlternative('wrong')"
+                (keydown.enter)="selectAlternative('wrong')"
               >
                 Errado
               </div>
               <div
+                tabindex="0"
+                role="button"
                 class="alternative"
                 [ngClass]="{
                   right: answers[currentQuestion]?.answer === 'right',
                   disabled: answers[currentQuestion]
                 }"
                 (click)="selectAlternative('right')"
+                (keydown.enter)="selectAlternative('right')"
               >
                 Certo
               </div>
             </div>
           </div>
 
-          <div *ngIf="currentQuestion === 1" class="second">
-            <p>
-              Ligue a palavra em inglês para o significado <br />
-              dela em português
+          <div
+            *ngIf="currentQuestion === 1"
+            class="second"
+            [ngClass]="{ 'selected-question': currentQuestion === 1 }"
+          >
+            <p tabindex="0" class="question-statement">
+              Ligue a palavra em inglês para o significado dela em português.
+              <span lang="pt" class="visually-hidden"
+                >Navegue até a palavra, pressione enter e, em seguida, navegue
+                até a alternativa correta e, pressione Enter na que deseja
+                selecionar</span
+              >
             </p>
             <div
+              tabindex="0"
+              [attr.aria-grabbed]="this.wordGrabbed"
+              aria-label="Palavra para ligar com uma das alternativas: Cow"
               class="word"
               draggable="true"
               (dragstart)="startDrag($event)"
               (dragend)="endDrag($event)"
+              (keydown.enter)="grabWord()"
               [ngClass]="{ invisible: answers[currentQuestion] }"
             >
               Cow
             </div>
-            <div class="word-alternatives">
+            <div
+              class="word-alternatives"
+              role="list"
+              aria-label="Opções disponíveis"
+            >
               <div
+                tabindex="0"
+                role="listitem"
                 class="alternative"
                 (drop)="onDrop($event, 'coruja')"
                 (dragover)="allowDrop($event)"
+                (keydown.enter)="selectWord('coruja')"
                 [ngClass]="{
                   wrong: answers[currentQuestion]?.answer === 'coruja'
                 }"
@@ -103,9 +143,12 @@
                 Coruja
               </div>
               <div
+                tabindex="0"
+                role="listitem"
                 class="alternative"
                 (drop)="onDrop($event, 'cachorro')"
                 (dragover)="allowDrop($event)"
+                (keydown.enter)="selectWord('cachorro')"
                 [ngClass]="{
                   wrong: answers[currentQuestion]?.answer === 'cachorro'
                 }"
@@ -113,9 +156,12 @@
                 Cachorro
               </div>
               <div
+                tabindex="0"
+                role="listitem"
                 class="alternative"
                 (drop)="onDrop($event, 'vaca')"
                 (dragover)="allowDrop($event)"
+                (keydown.enter)="selectWord('vaca')"
                 [ngClass]="{
                   right: answers[currentQuestion]?.answer === 'vaca'
                 }"
@@ -125,64 +171,99 @@
             </div>
           </div>
 
-          <div *ngIf="currentQuestion === 2" class="third">
-            <p>
-              Escute o áudio e selecione a palavra <br />
-              que foi dita nele
+          <div
+            *ngIf="currentQuestion === 2"
+            class="third"
+            [ngClass]="{ 'selected-question': currentQuestion === 2 }"
+          >
+            <p tabindex="0" class="question-statement">
+              Escute o áudio e selecione a palavra que foi dita nele
             </p>
             <div class="audio">
-              <div>
-                <img
-                  src="assets/images/sound-button.png"
-                  (click)="onPlayAudio('butterfly')"
-                />
+              <div
+                aria-label="Pressione enter para ouvir a palavra"
+                tabindex="0"
+                class="audio-option"
+                (click)="onPlayAudio('butterfly')"
+                (keydown.enter)="onPlayAudio('butterfly')"
+              >
+                <img src="assets/images/sound-button.png" />
               </div>
-              <div class="alternatives">
+              <div class="alternatives" role="list">
                 <div>
                   <div
+                    aria-labelledby="first-option-label"
+                    role="listitem"
+                    tabindex="0"
                     class="alternative"
                     [ngClass]="{
                       wrong: answers[currentQuestion]?.answer === 'dog',
                       disabled: answers[currentQuestion]
                     }"
                     (click)="selectAlternative('dog')"
+                    (keydown.enter)="selectAlternative('dog')"
                   >
                     Dog
                   </div>
+
                   <div
+                    aria-labelledby="second-option-label"
+                    role="listitem"
+                    tabindex="0"
                     class="alternative"
                     [ngClass]="{
                       wrong: answers[currentQuestion]?.answer === 'cat',
                       disabled: answers[currentQuestion]
                     }"
                     (click)="selectAlternative('cat')"
+                    (keydown.enter)="selectAlternative('cat')"
                   >
                     Cat
                   </div>
                 </div>
                 <div>
                   <div
+                    aria-labelledby="third-option-label"
+                    role="listitem"
+                    tabindex="0"
                     class="alternative"
                     [ngClass]="{
                       right: answers[currentQuestion]?.answer === 'butterfly',
                       disabled: answers[currentQuestion]
                     }"
                     (click)="selectAlternative('butterfly')"
+                    (keydown.enter)="selectAlternative('butterfly')"
                   >
                     Butterfly
                   </div>
                   <div
+                    aria-labelledby="fourth-option-label"
+                    role="listitem"
+                    tabindex="0"
                     class="alternative"
                     [ngClass]="{
                       wrong: answers[currentQuestion]?.answer === 'cow',
                       disabled: answers[currentQuestion]
                     }"
                     (click)="selectAlternative('cow')"
+                    (keydown.enter)="selectAlternative('cow')"
                   >
                     Cow
                   </div>
                 </div>
               </div>
+              <span id="first-option-label" class="visually-hidden">
+                Primeira opção: <span lang="en">Dog</span>
+              </span>
+              <span id="second-option-label" class="visually-hidden">
+                Segunda opção: <span lang="en">Cat</span>
+              </span>
+              <span id="third-option-label" class="visually-hidden">
+                Terceira opção: <span lang="en">Butterfly</span>
+              </span>
+              <span id="fourth-option-label" class="visually-hidden">
+                Quarta opção: <span lang="en">Cow</span>
+              </span>
             </div>
           </div>
         </ng-container>
@@ -205,27 +286,48 @@
             </div>
 
             <img
+              tabindex="0"
+              role="button"
+              aria-label="Recomeçar o jogo"
               class="restart-button"
               src="assets/images/restart.png"
               (click)="restartActivity()"
+              (keydown.enter)="restartActivity()"
             />
 
             <img
+              role="button"
+              tabindex="0"
+              aria-label="Fechar o jogo"
               class="close-button"
               src="assets/images/close.png"
               (click)="closeActivity()"
+              (keydown.enter)="closeActivity()"
             />
           </div>
         </ng-container>
 
         <div
-          class="arrow arrow-left"
+          tabindex="0"
+          role="button"
+          aria-label="Ir para questão anterior"
+          class="arrow arrow-left prev-question"
           *ngIf="currentQuestion > 0 && !activityResult"
+          (click)="previous()"
+          (keydown.enter)="previous()"
         >
-          <img src="assets/images/arrow-left.png" (click)="previous()" />
+          <img src="assets/images/arrow-left.png" />
         </div>
-        <div class="arrow arrow-right" *ngIf="currentQuestion !== 2">
-          <img src="assets/images/arrow-right.png" (click)="next()" />
+        <div
+          tabindex="0"
+          role="button"
+          aria-label="Ir para próxima questão"
+          class="arrow arrow-right next-question"
+          *ngIf="currentQuestion !== 2"
+          (click)="next()"
+          (keydown.enter)="next()"
+        >
+          <img src="assets/images/arrow-right.png" />
         </div>
       </div>
       <div class="card-footer">

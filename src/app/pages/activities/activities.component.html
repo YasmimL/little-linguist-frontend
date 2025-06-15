@@ -1,5 +1,5 @@
 <div class="activities-container">
-  <div class="breadcrumb">
+  <div class="breadcrumb" aria-label="Descubra / Discover" tabindex="0">
     <img src="assets/images/discover-black.png" />
     <h3 class="breadcrumb-item" aria-current="page">Descubra</h3>
     <p class="breadcrumb-item" aria-current="page">Discover</p>
@@ -11,26 +11,34 @@
         <div
           class="card"
           (click)="selectActivity(activity, i)"
+          (keydown.enter)="selectActivity(activity, i)"
           [ngClass]="{ active: i === current }"
+          attr.aria-labelledby="card-label-{{ activity.key }}"
+          tabindex="0"
         >
           <div class="card-body">
             <img
-              src="{{ activities[i].src }}"
-              [style]="{ width: activities[i].width }"
+              [attr.src]="activity.src"
+              [style]="{ width: activity.width }"
             />
             <div class="card-details">
-              <h5 class="card-title">{{ activities[i].portugueseName }}</h5>
-              <h6>{{ activities[i].englishName }}</h6>
+              <h5 class="card-title">{{ activity.portugueseName }}</h5>
+              <h6>{{ activity.englishName }}</h6>
             </div>
           </div>
         </div>
+
+        <span id="card-label-{{ activity.key }}" class="visually-hidden">
+          <span lang="pt">{{ activity.portugueseName }}</span>
+          <span lang="en">{{ activity.englishName }}</span>
+        </span>
       </div>
     </div>
   </div>
 </div>
 
 <div class="activities-category-container" *ngIf="current !== -1">
-  <div class="breadcrumb">
+  <div class="breadcrumb" tabindex="0" aria-labelledby="breadcrumb-label">
     <img src="{{ activities[current].src }}" width="6rem" />
     <h3 class="breadcrumb-item" aria-current="page">
       {{ activities[current].portugueseName }}
@@ -38,12 +46,24 @@
     <p class="breadcrumb-item" aria-current="page">
       {{ activities[current].englishName }}
     </p>
+
+    <span id="breadcrumb-label" class="visually-hidden">
+      <span>Seção selecionada:</span>
+      <span>{{ activities[current].portugueseName }}</span>
+      <span lang="en">{{ activities[current].englishName }}</span>
+    </span>
   </div>
 
   <div class="categories-cards">
     <div class="row row-cols-1 row-cols-md-2 g-6">
       <div class="col" *ngFor="let category of categories; index as i">
-        <div class="card" (click)="selectCategory(activity!.key, i)">
+        <div
+          tabindex="0"
+          attr.aria-labelledby="category-label-{{ categories[i].key }}"
+          class="card"
+          (click)="selectCategory(activity!.key, i)"
+          (keydown.enter)="selectCategory(activity!.key, i)"
+        >
           <div class="card-body">
             <img
               src="{{ categories[i].src }}"
@@ -55,6 +75,15 @@
             </div>
           </div>
         </div>
+
+        <span
+          id="category-label-{{ categories[i].key }}"
+          class="visually-hidden"
+        >
+          <span>Selecionar categoria:</span>
+          <span>{{ categories[i].portugueseName }}</span>
+          <span lang="en">{{ categories[i].englishName }}</span>
+        </span>
       </div>
     </div>
   </div>

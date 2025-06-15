@@ -82,6 +82,10 @@
         border-radius: 10px;
         box-shadow: (0px 0px 10px var(--box-shadow-03));
 
+        &:focus-visible {
+          outline: -webkit-focus-ring-color auto 1px;
+        }
+
         &:disabled {
           opacity: 0.5;
           border: none;
