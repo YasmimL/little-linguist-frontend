@@ -1,32 +1,50 @@
-<div class="memory-game-container">
+<section class="memory-game-container">
   <div class="image-container">
     <ng-container *ngIf="gameStatus === GameStatus.BEGINNING">
       <img class="game-background" src="assets/images/memory-game.png" />
       <img
+        tabindex="0"
+        role="button"
+        aria-label="Jogar"
         class="game-button play-button"
         src="assets/images/play-button.png"
         (click)="onClickStartGame()"
+        (keydown.enter)="onClickStartGame()"
       />
     </ng-container>
 
     <ng-container *ngIf="gameStatus === GameStatus.INSTRUCTIONS">
+      <span lang="pt" class="visually-hidden">
+        Bem-vindo ao jogo da memória! Seu objetivo é encontrar os pares de
+        cartas, combinando a carta com a figura de um animal com a carta com o
+        nome dele em inglês. Divirta-se e boa sorte!
+      </span>
       <img class="game-background" src="assets/images/instructions.png" />
       <img
-        class="game-button play"
+        tabindex="0"
+        role="button"
+        aria-label="Iniciar jogo"
+        class="game-button play start-game-button"
         src="assets/images/play.png"
         (click)="startGame()"
+        (keydown.enter)="startGame()"
       />
     </ng-container>
 
     <ng-container *ngIf="gameStatus === GameStatus.PLAYING">
       <img class="game-background" src="assets/images/playing-background.png" />
       <span class="game-time">Tempo: {{ time }}s</span>
-      <div class="cards-container">
+      <div class="cards-container" role="list">
         <app-memory-game-card
-          *ngFor="let card of cards"
+          *ngFor="let card of cards; index as i"
+          [attr.aria-label]="getCardLabel(card, i)"
+          tabindex="0"
+          role="listitem"
           [card]="card"
           [cardSelected]="shouldShowCard(card)"
+          [shouldShowPlayButton]="isCardSelected(card)"
           (click)="selectCard(card)"
+          (keydown.enter)="selectCard(card)"
           (playAudio)="onPlayAudio(card)"
         ></app-memory-game-card>
       </div>
@@ -56,6 +74,6 @@
       />
     </ng-container>
   </div>
-</div>
+</section>
 
 <app-confetti [render]="gameResult?.result === 'win'"></app-confetti>

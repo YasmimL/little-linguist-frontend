@@ -59,30 +59,24 @@
       <div class="col" *ngFor="let category of categories; index as i">
         <div
           tabindex="0"
-          attr.aria-labelledby="category-label-{{ categories[i].key }}"
+          attr.aria-labelledby="category-label-{{ category.key }}"
           class="card"
           (click)="selectCategory(activity!.key, i)"
           (keydown.enter)="selectCategory(activity!.key, i)"
         >
           <div class="card-body">
-            <img
-              src="{{ categories[i].src }}"
-              [style]="{ width: categories[i].width }"
-            />
+            <img src="{{ category.src }}" [style]="{ width: category.width }" />
             <div class="card-details">
-              <h5 class="card-title">{{ categories[i].portugueseName }}</h5>
-              <h6>{{ categories[i].englishName }}</h6>
+              <h5 class="card-title">{{ category.portugueseName }}</h5>
+              <h6>{{ category.englishName }}</h6>
             </div>
           </div>
         </div>
 
-        <span
-          id="category-label-{{ categories[i].key }}"
-          class="visually-hidden"
-        >
+        <span id="category-label-{{ category.key }}" class="visually-hidden">
           <span>Selecionar categoria:</span>
-          <span>{{ categories[i].portugueseName }}</span>
-          <span lang="en">{{ categories[i].englishName }}</span>
+          <span>{{ category.portugueseName }}</span>
+          <span lang="en">{{ category.englishName }}</span>
         </span>
       </div>
     </div>

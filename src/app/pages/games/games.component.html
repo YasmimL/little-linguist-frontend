@@ -1,34 +1,40 @@
 <div class="games-container">
-  <div class="breadcrumb">
+  <div class="breadcrumb" aria-label="Divirta-se / Have fun" tabindex="0">
     <img src="assets/images/game-black.png" />
     <h3 class="breadcrumb-item" aria-current="page">Divirta-se</h3>
     <p class="breadcrumb-item" aria-current="page">Have fun</p>
   </div>
 
-  <div class="games-cards">
+  <div class="games-cards" role="list" aria-label="Jogos disponíveis">
     <div class="row row-cols-1 row-cols-md-4 g-5">
       <div class="col" *ngFor="let game of games; index as i">
         <div
           class="card"
+          tabindex="0"
+          role="listitem"
+          [attr.aria-label]="game.portugueseName + ' / ' + game.englishName"
           (click)="selectGame(i)"
+          (keydown.enter)="selectGame(i)"
           [ngClass]="{ active: i === current }"
         >
           <div class="card-body">
-            <img src="{{ games[i].src }}" [style]="{ width: games[i].width }" />
+            <img src="{{ game.src }}" [style]="{ width: game.width }" />
             <div class="card-details">
-              <h5 class="card-title">{{ games[i].portugueseName }}</h5>
-              <h6>{{ games[i].englishName }}</h6>
+              <h5 class="card-title">{{ game.portugueseName }}</h5>
+              <h6>{{ game.englishName }}</h6>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div *ngIf="current !== -1">
+  <ng-container *ngIf="current !== -1">
     <div class="game-painel">
       <div class="game-type">
         <img src="{{ games[current].src }}" />
-        <h5>{{ games[current].portugueseName }}</h5>
+        <h5 tabindex="0" class="game-title">
+          {{ games[current].portugueseName }}
+        </h5>
       </div>
       <app-memory-game
         (gameFinished)="$event ? onGameFinished() : (gameFinished = false)"
@@ -38,5 +44,5 @@
     <div class="game-ranking">
       <app-ranking *ngIf="gameFinished"></app-ranking>
     </div>
-  </div>
+  </ng-container>
 </div>

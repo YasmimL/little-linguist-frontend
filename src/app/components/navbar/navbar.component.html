@@ -1,7 +1,9 @@
 <nav class="navbar">
   <div class="container-fluid">
     <div class="logo-wrapper">
-      <img src="assets/images/logo.png" />
+      <a routerLink="" aria-label="Logo - Ir para Página Inicial" role="link">
+        <img src="assets/images/logo.png" />
+      </a>
     </div>
     <div class="pages">
       <a
@@ -30,7 +32,7 @@
         >Divirta-se</a
       >
     </div>
-    <div class="user-profile-wrapper">
+    <div class="user-profile-wrapper" aria-hidden="true">
       <img class="avatar" *ngIf="avatar" src="assets/images/{{ avatar }}.png" />
       <img *ngIf="!avatar" src="assets/icons/person-circle.svg" />
     </div>

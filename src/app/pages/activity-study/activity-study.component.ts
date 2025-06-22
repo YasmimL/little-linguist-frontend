@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/models/activity';
 import { ActivitiesDataService } from 'src/app/services/activities.data.service';
+import { focusElement } from 'src/app/utils/focus-element';
 
 @Component({
   selector: 'app-activity-study',
@@ -27,10 +28,18 @@ export class ActivityStudyComponent implements OnInit {
       this.activity = this.activitiesDataService.activities.find(
         (activity) => activity.key === keyActivity
       );
+
+      setTimeout(() => {
+        focusElement(() =>
+          document.querySelector('.category-study-container > .breadcrumb')
+        );
+      });
     });
   }
 
   onPlayAudio(key: string): void {
-    new Audio(`assets/audio/${key}.m4a`).play();
+    setTimeout(() => {
+      new Audio(`assets/audio/${key}.m4a`).play();
+    }, 300);
   }
 }

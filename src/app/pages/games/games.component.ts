@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { focusElement } from 'src/app/utils/focus-element';
 
 @Component({
   selector: 'app-games',
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss'],
 })
-export class GamesComponent {
+export class GamesComponent implements OnInit {
   current: number = -1;
   gameFinished = false;
 
@@ -36,13 +37,28 @@ export class GamesComponent {
     },
   ];
 
+  ngOnInit(): void {
+    setTimeout(() => {
+      focusElement(() =>
+        document.querySelector('.games-container > .breadcrumb')
+      );
+    });
+  }
+
   selectGame(index: number): void {
     this.current = index;
     setTimeout(() => {
-      document
-        .querySelector('.game-painel')
-        ?.scrollIntoView({ behavior: 'smooth' });
-    }, 200);
+      const gamePanel = document.querySelector('.game-painel');
+
+      if (gamePanel) {
+        const scrollIntoGame = () =>
+          gamePanel.scrollIntoView({ behavior: 'smooth' });
+        const titleSelector = () => gamePanel.querySelector('.game-title');
+
+        setTimeout(scrollIntoGame, 200);
+        setTimeout(() => focusElement(titleSelector), 500);
+      }
+    });
   }
 
   onGameFinished() {

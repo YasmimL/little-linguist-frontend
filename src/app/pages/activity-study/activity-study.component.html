@@ -1,5 +1,9 @@
 <div class="category-study-container" *ngIf="activity">
-  <div class="breadcrumb">
+  <div
+    class="breadcrumb"
+    [attr.aria-label]="activity.portugueseName + '/' + activity.englishName"
+    tabindex="0"
+  >
     <img src="{{ activity.src }}" width="6rem" />
     <h3 class="breadcrumb-item" aria-current="page">
       {{ activity.portugueseName }}
@@ -9,22 +13,32 @@
     </p>
   </div>
 
-  <div class="words-cards">
+  <div class="words-cards" role="list" aria-label="Cartas de áudio para estudo">
     <div class="row row-cols-1 row-cols-md-3 g-5">
-      <div class="col" *ngFor="let words of activity.words; index as i">
+      <div
+        class="col"
+        *ngFor="let word of activity.words; index as i"
+        tabindex="0"
+        role="listitem"
+        [attr.aria-label]="word.portugueseName"
+      >
         <div class="card">
           <div class="card-body">
             <div class="card-details">
-              <img src="{{ words.src }}" [style]="{ width: words.width }" />
+              <img src="{{ word.src }}" [style]="{ width: word.width }" />
               <div>
-                <h4 class="card-title">{{ words.portugueseName }}</h4>
-                <h6>{{ words.englishName }}</h6>
+                <h4 class="card-title">{{ word.portugueseName }}</h4>
+                <h6>{{ word.englishName }}</h6>
               </div>
             </div>
             <div class="button-sound">
               <img
+                tabindex="0"
+                role="button"
+                aria-label="Reproduzir áudio em inglês"
                 src="assets/images/sound.png"
-                (click)="onPlayAudio(words.key)"
+                (click)="onPlayAudio(word.key)"
+                (keydown.enter)="onPlayAudio(word.key)"
               />
             </div>
           </div>

@@ -10,9 +10,10 @@ import { CardWord } from 'src/app/models/card-word';
 export class MemoryGameCardComponent {
   @Input() card?: CardImage | CardWord;
   @Input() cardSelected = false;
+  @Input() shouldShowPlayButton = false;
   @Output() playAudio = new EventEmitter<void>();
 
-  onClickPlayAudio(event: MouseEvent): void {
+  onClickPlayAudio(event: Event | MouseEvent): void {
     event.stopPropagation();
     this.playAudio.emit();
   }

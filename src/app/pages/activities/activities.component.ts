@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Activity } from 'src/app/models/activity';
 import { ActivitiesDataService } from 'src/app/services/activities.data.service';
 import { ScreenReaderAnnouncerService } from 'src/app/services/screen-reader-announcer.service';
+import { focusElement } from 'src/app/utils/focus-element';
 
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss'],
 })
-export class ActivitiesComponent {
+export class ActivitiesComponent implements OnInit {
   activities = this.activitiesDataService.activities;
   current: number = -1;
   activity?: Activity;
@@ -36,23 +37,31 @@ export class ActivitiesComponent {
     private screenReaderAnnouncerService: ScreenReaderAnnouncerService
   ) {}
 
+  ngOnInit(): void {
+    focusElement(() =>
+      document.querySelector('.activities-container > .breadcrumb')
+    );
+  }
+
   selectActivity(activity: Activity, index: number): void {
     this.current = index;
     this.activity = activity;
 
-    const selectedActivity = document.querySelector(
-      '.activities-category-container'
-    );
+    setTimeout(() => {
+      const selectedActivity = document.querySelector(
+        '.activities-category-container'
+      );
 
-    if (selectedActivity) {
-      const scrollIntoSelectedActivity = () =>
-        selectedActivity.scrollIntoView({ behavior: 'smooth' });
-      const focusBreadcrumb = () =>
-        (selectedActivity.querySelector('.breadcrumb') as HTMLElement)?.focus();
+      if (selectedActivity) {
+        const scrollIntoSelectedActivity = () =>
+          selectedActivity.scrollIntoView({ behavior: 'smooth' });
+        const breadcrumbSelector = () =>
+          selectedActivity.querySelector('.breadcrumb');
 
-      setTimeout(scrollIntoSelectedActivity, 200);
-      setTimeout(focusBreadcrumb, 500);
-    }
+        setTimeout(scrollIntoSelectedActivity, 200);
+        setTimeout(() => focusElement(breadcrumbSelector), 500);
+      }
+    });
   }
 
   selectCategory(key: string, index: number): void {

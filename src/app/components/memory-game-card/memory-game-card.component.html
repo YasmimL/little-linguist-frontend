@@ -15,9 +15,13 @@
       <div class="card-word-container">
         <h5>{{ card.word }}</h5>
         <img
-          class=""
+          [attr.aria-hidden]="!shouldShowPlayButton"
+          [tabindex]="shouldShowPlayButton ? 0 : -1"
+          aria-label="Pressione Enter para ouvir"
+          role="button"
           src="assets/images/sound.png"
           (click)="onClickPlayAudio($event)"
+          (keydown.enter)="onClickPlayAudio($event)"
         />
       </div>
     </ng-container>

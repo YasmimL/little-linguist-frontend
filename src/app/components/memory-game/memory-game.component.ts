@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { GameStatus } from 'src/app/enum/game-status.enum';
 import { Card } from 'src/app/models/card';
 import { CardWord } from 'src/app/models/card-word';
 import { GamesPoints } from 'src/app/models/games-points';
 import { RankingService } from 'src/app/services/ranking.service';
+import { ScreenReaderAnnouncerService } from 'src/app/services/screen-reader-announcer.service';
 import { UserDataService } from 'src/app/services/user.data.service';
+import { focusElement } from 'src/app/utils/focus-element';
 import { shuffle } from 'src/app/utils/shuffle';
 
 interface GameResult {
@@ -17,11 +19,11 @@ interface GameResult {
   templateUrl: './memory-game.component.html',
   styleUrls: ['./memory-game.component.scss'],
 })
-export class MemoryGameComponent {
+export class MemoryGameComponent implements OnDestroy {
   @Output() gameFinished = new EventEmitter<boolean>();
   hits: string[] = [];
   selectedCards: Card[] = [];
-  time: number = 120;
+  time: number = 180;
   timerId?: number;
   gameResult: GameResult | null = null;
   _gameStatus: GameStatus = GameStatus.BEGINNING;
@@ -36,12 +38,12 @@ export class MemoryGameComponent {
   }
 
   animals = [
-    { key: 'dog', word: 'Dog' },
-    { key: 'cat', word: 'Cat' },
-    { key: 'fish', word: 'Fish' },
-    { key: 'owl', word: 'Owl' },
-    { key: 'butterfly', word: 'Butterfly' },
-    { key: 'cow', word: 'Cow' },
+    { key: 'dog', word: 'Dog', portuguese: 'Cachorro' },
+    { key: 'cat', word: 'Cat', portuguese: 'Gato' },
+    { key: 'fish', word: 'Fish', portuguese: 'Peixe' },
+    { key: 'owl', word: 'Owl', portuguese: 'Coruja' },
+    { key: 'butterfly', word: 'Butterfly', portuguese: 'Borboleta' },
+    { key: 'cow', word: 'Cow', portuguese: 'Vaca' },
   ];
 
   cards: Card[] = shuffle(
@@ -51,6 +53,7 @@ export class MemoryGameComponent {
           type: 'image',
           key: animal.key,
           src: `assets/images/${animal.key}.png`,
+          portuguese: animal.portuguese,
         },
         {
           type: 'word',
@@ -68,58 +71,100 @@ export class MemoryGameComponent {
 
   constructor(
     private rankingService: RankingService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private screenReaderAnnouncerService: ScreenReaderAnnouncerService
   ) {}
+
+  ngOnDestroy(): void {
+    this.clearGame();
+    this.screenReaderAnnouncerService.postMessage('O jogo foi finalizado');
+  }
 
   onClickStartGame(): void {
     this.gameStatus = GameStatus.INSTRUCTIONS;
+    setTimeout(() => {
+      this.screenReaderAnnouncerService.postMessage(`
+        Bem-vindo ao jogo da memória!
+        Seu objetivo é encontrar os pares de cartas,
+        combinando a carta com a figura de um animal
+        com a carta com o nome dele em inglês.
+        Divirta-se e boa sorte!
+      `);
+      focusElement(() => document.querySelector('.start-game-button'));
+    });
   }
 
   startGame(): void {
     this.gameStatus = GameStatus.PLAYING;
+    setTimeout(() => {
+      focusElement(() => document.querySelector('app-memory-game-card'));
+    });
     this.timerId = window.setInterval(() => {
       this.time--;
       if (this.time === 0) {
         this.playNotification('game-over');
         this.finishGame();
       }
+      if (this.time % 30 === 0) {
+        this.screenReaderAnnouncerService.postMessage(
+          `Faltam ${this.time} segundos para o fim do jogo`
+        );
+      }
     }, 1000);
   }
 
-  restartGame(): void {
+  clearGame(): void {
+    clearInterval(this.timerId);
+    this.gameStatus = GameStatus.BEGINNING;
     this.time = 120;
     this.hits = [];
     this.selectedCards = [];
     this.gameResult = null;
+  }
+
+  restartGame(): void {
+    this.clearGame();
     this.startGame();
   }
 
   shouldShowCard(card: Card): boolean {
-    if (this.hits.includes(card.key)) {
+    if (this.isCardMatched(card)) {
       return true;
     }
 
-    return this.selectedCards.some(
-      (it) => it.key === card.key && it.type === card.type
-    );
+    return this.isCardSelected(card);
+  }
+
+  announceCardSelected(card: Card): void {
+    if (card.type === 'image') {
+      this.screenReaderAnnouncerService.postMessage(
+        `Carta virada: ${card.portuguese}`
+      );
+    } else {
+      this.screenReaderAnnouncerService.postMessage(
+        'Carta de áudio virada, navegue até o botão para reproduzir o áudio.'
+      );
+    }
   }
 
   selectCard(card: Card): void {
-    if (this.hits.includes(card.key)) {
+    if (this.isCardMatched(card)) {
       return;
     }
 
-    if (this.selectedCards.length === 1) {
-      const [selectedCard] = this.selectedCards;
-
-      if (selectedCard.key === card.key && selectedCard.type === card.type) {
-        return;
-      }
+    if (this.selectedCards.length === 1 && this.isCardSelected(card)) {
+      this.selectedCards = [];
+      setTimeout(
+        () => this.screenReaderAnnouncerService.postMessage('Carta desvirada'),
+        300
+      );
+      return;
     }
 
     this.selectedCards.push(card);
 
     if (this.selectedCards.length === 1) {
+      setTimeout(() => this.announceCardSelected(card), 300);
       return;
     }
 
@@ -128,12 +173,21 @@ export class MemoryGameComponent {
       setTimeout(() => {
         this.playNotification('wrong-answer');
         this.selectedCards = [];
+        setTimeout(() => {
+          this.screenReaderAnnouncerService.postMessage(
+            'As cartas não correspondem. Tente novamente.'
+          );
+        }, 300);
       }, 700);
 
       return;
     }
 
     this.playNotification('correct-answer');
+    setTimeout(() => {
+      this.screenReaderAnnouncerService.postMessage('Par encontrado!');
+    }, 300);
+
     this.hits.push(card.key);
     this.selectedCards = [];
 
@@ -191,7 +245,37 @@ export class MemoryGameComponent {
     );
 
     if (foundCard) {
-      new Audio((foundCard as CardWord).wordAudio).play();
+      setTimeout(() => {
+        new Audio((foundCard as CardWord).wordAudio).play();
+      }, 300);
     }
+  }
+
+  isCardMatched(card: Card): boolean {
+    return this.hits.includes(card.key);
+  }
+
+  isCardSelected(card: Card): boolean {
+    return this.selectedCards.some(
+      (it) => it.key === card.key && it.type === card.type
+    );
+  }
+
+  getCardLabel(card: Card, index: number): string {
+    const cardName = `Carta ${index + 1}`;
+
+    if (this.isCardMatched(card)) {
+      return `${cardName}: já virada. Par encontrado.`;
+    }
+
+    if (!this.isCardSelected(card)) {
+      return `${cardName}: virada para baixo. Pressione Enter para virar.`;
+    }
+
+    if (card.type === 'word') {
+      return `${cardName}: carta de áudio. Já está virada. Aguardando o par com imagem.`;
+    }
+
+    return `${cardName}: imagem de um(a) ${card.portuguese}. Já está virada. Aguardando o par com áudio.`;
   }
 }
