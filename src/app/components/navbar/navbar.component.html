@@ -32,9 +32,16 @@
         >Divirta-se</a
       >
     </div>
-    <div class="user-profile-wrapper" aria-hidden="true">
-      <img class="avatar" *ngIf="avatar" src="assets/images/{{ avatar }}.png" />
-      <img *ngIf="!avatar" src="assets/icons/person-circle.svg" />
+    <div class="actions">
+      <app-acessibility></app-acessibility>
+      <div class="user-profile-wrapper" aria-hidden="true">
+        <img
+          class="avatar"
+          *ngIf="avatar"
+          src="assets/images/{{ avatar }}.png"
+        />
+        <img *ngIf="!avatar" src="assets/icons/person-circle.svg" />
+      </div>
     </div>
   </div>
 </nav>

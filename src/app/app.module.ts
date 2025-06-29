@@ -19,6 +19,7 @@ import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ConfettiComponent } from './components/confetti/confetti.component';
 import { ActivityExerciseComponent } from './pages/activity-exercise/activity-exercise.component';
+import { AcessibilityComponent } from './components/acessibility/acessibility.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ActivityExerciseComponent } from './pages/activity-exercise/activity-ex
     RankingComponent,
     ConfettiComponent,
     ActivityExerciseComponent,
+    AcessibilityComponent,
   ],
   imports: [
     BrowserModule,
