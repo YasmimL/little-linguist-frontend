@@ -63,6 +63,7 @@ export class GamesComponent implements OnInit {
 
   onGameFinished() {
     this.gameFinished = true;
+
     setTimeout(() => {
       document
         .querySelector('.game-ranking')

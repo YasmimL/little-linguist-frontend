@@ -53,8 +53,8 @@
     <ng-container *ngIf="gameStatus === GameStatus.FINISHED">
       <img class="game-background" src="assets/images/memory-game.png" />
       <div class="game-result" *ngIf="gameResult?.result === 'win'">
-        <p>Parabéns, você conseguiu!</p>
-        <div class="punctuation">
+        <p tabindex="0">Parabéns, você conseguiu!</p>
+        <div class="punctuation" tabindex="0" role="group">
           <span>Pontuação:</span>
           <span>{{ gameResult?.score }}</span>
           <span>pontos</span>
@@ -68,12 +68,19 @@
         </div>
       </div>
       <img
+        tabindex="0"
+        role="button"
+        aria-label="Recomeçar o jogo"
         class="game-button restart-button"
         src="assets/images/restart-button.png"
         (click)="restartGame()"
+        (keydown.enter)="restartGame()"
       />
     </ng-container>
   </div>
 </section>
 
-<app-confetti [render]="gameResult?.result === 'win'"></app-confetti>
+<app-confetti
+  [render]="gameResult?.result === 'win'"
+  (confettiFinished)="onConfettiFinished()"
+></app-confetti>

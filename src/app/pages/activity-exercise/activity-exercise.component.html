@@ -341,5 +341,8 @@
     </div>
   </div>
 
-  <app-confetti [render]="activityResult?.result === 'win'"></app-confetti>
+  <app-confetti
+    [render]="activityResult?.result === 'win'"
+    (confettiFinished)="onConfettiFinished()"
+  ></app-confetti>
 </ng-container>

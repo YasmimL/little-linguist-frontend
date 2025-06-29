@@ -1,3 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  main {
+    flex: 1;
+  }
+}
+
 footer {
   position: relative;
   bottom: 0;

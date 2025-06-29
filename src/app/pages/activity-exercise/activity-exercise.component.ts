@@ -6,6 +6,7 @@ import { ActivitiesDataService } from 'src/app/services/activities.data.service'
 import { AnimalsActivitiesService } from 'src/app/services/animals-activities.service';
 import { ScreenReaderAnnouncerService } from 'src/app/services/screen-reader-announcer.service';
 import { UserDataService } from 'src/app/services/user.data.service';
+import { focusElement } from 'src/app/utils/focus-element';
 
 interface ActivityResult {
   result: 'win' | 'lose';
@@ -88,13 +89,9 @@ export class ActivityExerciseComponent implements OnInit {
 
   focusQuestionStatement(timeout: number = 200) {
     setTimeout(() => {
-      const questionStatement = document.querySelector(
-        '.selected-question .question-statement'
+      focusElement(() =>
+        document.querySelector('.selected-question .question-statement')
       );
-
-      if (questionStatement) {
-        (questionStatement as HTMLHtmlElement)?.focus();
-      }
     }, timeout);
   }
 
@@ -160,7 +157,7 @@ export class ActivityExerciseComponent implements OnInit {
       this.finishActivity();
     } else {
       setTimeout(() => {
-        (document.querySelector('.next-question') as HTMLElement)?.focus();
+        focusElement(() => document.querySelector('.next-question'));
       }, 1000);
     }
   }
@@ -191,10 +188,6 @@ export class ActivityExerciseComponent implements OnInit {
       }
       this.activityResult = activityResult;
     }, 1000);
-
-    setTimeout(() => {
-      (document.querySelector('.restart-button') as HTMLElement)?.focus();
-    }, 7000);
   }
 
   playNotification(
@@ -302,5 +295,11 @@ export class ActivityExerciseComponent implements OnInit {
     if (!this.wordGrabbed) return;
     this.selectAlternative(option);
     this.wordGrabbed = false;
+  }
+
+  onConfettiFinished(): void {
+    setTimeout(() => {
+      focusElement(() => document.querySelector('.restart-button'));
+    });
   }
 }

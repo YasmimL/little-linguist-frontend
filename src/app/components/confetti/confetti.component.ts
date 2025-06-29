@@ -2,8 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
+  Output,
   ViewChild,
 } from '@angular/core';
 
@@ -14,6 +16,9 @@ import {
 })
 export class ConfettiComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas', { static: true }) canvas?: ElementRef;
+
+  @Output() confettiFinished = new EventEmitter<void>();
+
   _renderConfetti = false;
   @Input('render') set renderConfetti(render: boolean) {
     this._renderConfetti = render;
@@ -145,6 +150,7 @@ export class ConfettiComponent implements AfterViewInit, OnDestroy {
 
     setTimeout(() => {
       this.renderConfetti = false;
+      this.confettiFinished.emit();
     }, 10000);
   }
 }

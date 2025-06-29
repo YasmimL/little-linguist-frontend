@@ -209,7 +209,24 @@ export class MemoryGameComponent implements OnDestroy {
       score: this.time * 10 + this.hits.length * 20,
     };
 
+    this.announceGameResult();
+
     this.updateGamePoints();
+  }
+
+  announceGameResult(): void {
+    if (!this.gameResult) return;
+
+    const { result, score } = this.gameResult;
+
+    const message =
+      result === 'win'
+        ? `Parabéns, você conseguiu! Sua pontuação foi de ${score} pontos`
+        : 'Não foi dessa vez! Vamos lá, não desista e tente novamente';
+
+    setTimeout(() => {
+      this.screenReaderAnnouncerService.postMessage(message);
+    }, 5000);
   }
 
   playNotification(
@@ -277,5 +294,11 @@ export class MemoryGameComponent implements OnDestroy {
     }
 
     return `${cardName}: imagem de um(a) ${card.portuguese}. Já está virada. Aguardando o par com áudio.`;
+  }
+
+  onConfettiFinished(): void {
+    setTimeout(() => {
+      focusElement(() => document.querySelector('.restart-button'));
+    });
   }
 }

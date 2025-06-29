@@ -1,13 +1,18 @@
 <div class="ranking-container">
-  <div class="ranking-header">
+  <div class="ranking-header" aria-label="Classificação" tabindex="0">
     <img src="assets/images/rating.png" />
     <h5>Classificação</h5>
   </div>
 
   <div class="ranking-body" *ngIf="columnName && ranking && userScore">
     <div class="card">
-      <div class="card-body">
-        <div class="second">
+      <div class="card-body" aria-label="Pódio" role="list">
+        <div
+          class="second"
+          tabindex="0"
+          role="listitem"
+          [attr.aria-label]="userClassification(1)"
+        >
           <div>
             <img
               class="avatar"
@@ -24,7 +29,12 @@
             }}</span>
           </div>
         </div>
-        <div class="first">
+        <div
+          class="first"
+          tabindex="0"
+          role="listitem"
+          [attr.aria-label]="userClassification(0)"
+        >
           <div>
             <img
               class="avatar"
@@ -41,7 +51,12 @@
             }}</span>
           </div>
         </div>
-        <div class="third">
+        <div
+          class="third"
+          tabindex="0"
+          role="listitem"
+          [attr.aria-label]="userClassification(2)"
+        >
           <div>
             <img
               class="avatar"
@@ -60,9 +75,13 @@
         </div>
       </div>
       <div class="card-footer">
-        <h3>Sua colocação</h3>
-        <div>
-          <div>{{ userScore.classification }}</div>
+        <h3 tabindex="0">Sua colocação</h3>
+        <div
+          tabindex="0"
+          role="group"
+          [attr.aria-label]="currentUserClassification(userScore)"
+        >
+          <div>{{ userScore.classification }}º</div>
           <div>
             <img src="assets/images/{{ userScore.user.avatar }}.png" />
             <span>{{ userScore.nickname }}</span>

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { forkJoin } from 'rxjs';
 import { GamesPoints } from 'src/app/models/games-points';
 import { RankingService } from 'src/app/services/ranking.service';
 import { UserDataService } from 'src/app/services/user.data.service';
@@ -47,5 +46,38 @@ export class RankingComponent {
           this.userScore = userScore;
         });
     }
+  }
+
+  userClassification(position: 0 | 1 | 2): string {
+    if (!this.ranking || !this.columnName) return '';
+
+    const userScore = this.ranking[position];
+    if (!userScore) return '';
+
+    const score = userScore[this.columnName];
+
+    let classification = '';
+    switch (position) {
+      case 0:
+        classification = 'Primeiro';
+        break;
+      case 1:
+        classification = 'Segundo';
+        break;
+      case 2:
+        classification = 'Terceiro';
+        break;
+    }
+
+    return `${classification} lugar: ${userScore.nickname} com ${score} pontos`;
+  }
+
+  currentUserClassification(userScore: GamesPoints): string {
+    if (!this.columnName) return '';
+
+    const { nickname, classification } = userScore;
+    const score = userScore[this.columnName];
+
+    return `${nickname}, você ficou na posição ${classification}, sua pontuação foi de ${score} pontos`;
   }
 }
