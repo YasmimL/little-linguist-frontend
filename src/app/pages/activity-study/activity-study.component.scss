@@ -38,6 +38,7 @@
       background-color: var(--white);
       border: 3px solid var(--gray-01);
       border-radius: 40px;
+      overflow: hidden;
 
       &-body {
         display: flex;

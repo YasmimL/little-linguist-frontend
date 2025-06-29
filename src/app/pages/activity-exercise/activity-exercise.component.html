@@ -20,6 +20,7 @@
           attr.aria-label="Iniciar atividade {{ i + 1 }}"
           (click)="selectActivity(i)"
           (keydown.enter)="selectActivity(i)"
+          class="button-border"
           [ngClass]="{ active: i === current }"
           [disabled]="i !== 0"
         >
@@ -72,7 +73,7 @@
               <div
                 tabindex="0"
                 role="button"
-                class="alternative"
+                class="alternative clickable"
                 [ngClass]="{
                   wrong: answers[currentQuestion]?.answer === 'wrong',
                   disabled: answers[currentQuestion]
@@ -85,7 +86,7 @@
               <div
                 tabindex="0"
                 role="button"
-                class="alternative"
+                class="alternative clickable"
                 [ngClass]="{
                   right: answers[currentQuestion]?.answer === 'right',
                   disabled: answers[currentQuestion]
@@ -289,7 +290,7 @@
               tabindex="0"
               role="button"
               aria-label="Recomeçar o jogo"
-              class="restart-button"
+              class="restart-button clickable"
               src="assets/images/restart.png"
               (click)="restartActivity()"
               (keydown.enter)="restartActivity()"
@@ -299,7 +300,7 @@
               role="button"
               tabindex="0"
               aria-label="Fechar o jogo"
-              class="close-button"
+              class="close-button clickable"
               src="assets/images/close.png"
               (click)="closeActivity()"
               (keydown.enter)="closeActivity()"
@@ -311,7 +312,7 @@
           tabindex="0"
           role="button"
           aria-label="Ir para questão anterior"
-          class="arrow arrow-left prev-question"
+          class="arrow arrow-left prev-question clickable"
           *ngIf="currentQuestion > 0 && !activityResult"
           (click)="previous()"
           (keydown.enter)="previous()"
@@ -322,7 +323,7 @@
           tabindex="0"
           role="button"
           aria-label="Ir para próxima questão"
-          class="arrow arrow-right next-question"
+          class="arrow arrow-right next-question clickable"
           *ngIf="currentQuestion !== 2"
           (click)="next()"
           (keydown.enter)="next()"

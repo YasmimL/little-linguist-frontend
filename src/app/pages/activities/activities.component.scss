@@ -34,6 +34,10 @@
     margin: 0 auto;
     justify-content: center;
 
+    .row {
+      margin-top: 0;
+    }
+
     .col {
       display: flex;
       justify-content: center;
@@ -45,6 +49,7 @@
       background-color: var(--blue-03);
       color: var(--white);
       border-radius: 40px;
+      overflow: hidden;
       box-shadow: 4px 3px 12px -4px var(--box-shadow-02);
 
       &-body {
@@ -55,6 +60,8 @@
         align-items: center;
         padding: 1.5rem 1rem;
         cursor: pointer;
+        border-radius: 40px;
+        overflow: hidden;
       }
 
       &-title {
@@ -102,6 +109,7 @@
       background-color: var(--blue-03);
       color: var(--white);
       border-radius: 40px;
+      overflow: hidden;
       box-shadow: 4px 3px 12px -4px var(--box-shadow-02);
 
       &-body {
@@ -112,6 +120,8 @@
         align-items: center;
         padding: 1.5rem 1rem;
         cursor: pointer;
+        border-radius: 40px;
+        overflow: hidden;
       }
 
       &-title {

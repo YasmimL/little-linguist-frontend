@@ -15,6 +15,7 @@
           [attr.src]="image.src"
           [attr.alt]="image.alt"
           [attr.tabindex]="0"
+          class="clickable"
           [ngClass]="{ active: i === current }"
           (click)="selectImage(i)"
           (keydown.enter)="selectImage(i)"

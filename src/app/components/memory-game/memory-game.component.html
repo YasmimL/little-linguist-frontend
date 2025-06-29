@@ -6,7 +6,7 @@
         tabindex="0"
         role="button"
         aria-label="Jogar"
-        class="game-button play-button"
+        class="game-button play-button clickable"
         src="assets/images/play-button.png"
         (click)="onClickStartGame()"
         (keydown.enter)="onClickStartGame()"
@@ -24,7 +24,7 @@
         tabindex="0"
         role="button"
         aria-label="Iniciar jogo"
-        class="game-button play start-game-button"
+        class="game-button play start-game-button clickable"
         src="assets/images/play.png"
         (click)="startGame()"
         (keydown.enter)="startGame()"
@@ -33,8 +33,8 @@
 
     <ng-container *ngIf="gameStatus === GameStatus.PLAYING">
       <img class="game-background" src="assets/images/playing-background.png" />
-      <span class="game-time">Tempo: {{ time }}s</span>
-      <div class="cards-container" role="list">
+      <span class="game-time ignore-hc-background">Tempo: {{ time }}s</span>
+      <div class="cards-container ignore-hc-background" role="list">
         <app-memory-game-card
           *ngFor="let card of cards; index as i"
           [attr.aria-label]="getCardLabel(card, i)"
@@ -46,32 +46,41 @@
           (click)="selectCard(card)"
           (keydown.enter)="selectCard(card)"
           (playAudio)="onPlayAudio(card)"
+          class="ignore-hc-background"
         ></app-memory-game-card>
       </div>
     </ng-container>
 
     <ng-container *ngIf="gameStatus === GameStatus.FINISHED">
       <img class="game-background" src="assets/images/memory-game.png" />
-      <div class="game-result" *ngIf="gameResult?.result === 'win'">
-        <p tabindex="0">Parabéns, você conseguiu!</p>
-        <div class="punctuation" tabindex="0" role="group">
-          <span>Pontuação:</span>
-          <span>{{ gameResult?.score }}</span>
-          <span>pontos</span>
+      <div
+        class="game-result ignore-hc-background"
+        *ngIf="gameResult?.result === 'win'"
+      >
+        <p tabindex="0" class="ignore-hc-background">
+          Parabéns, você conseguiu!
+        </p>
+        <div class="punctuation ignore-hc-background" tabindex="0" role="group">
+          <span class="ignore-hc-background">Pontuação:</span>
+          <span class="ignore-hc-background">{{ gameResult?.score }}</span>
+          <span class="ignore-hc-background">pontos</span>
         </div>
       </div>
-      <div class="game-result" *ngIf="gameResult?.result === 'lose'">
-        <p>Não foi dessa vez!</p>
-        <div class="advice">
-          <span>Vamos lá, não desista e </span>
-          <span>tente novamente!</span>
+      <div
+        class="game-result ignore-hc-background"
+        *ngIf="gameResult?.result === 'lose'"
+      >
+        <p class="ignore-hc-background">Não foi dessa vez!</p>
+        <div class="advice ignore-hc-background">
+          <span class="ignore-hc-background">Vamos lá, não desista e </span>
+          <span class="ignore-hc-background">tente novamente!</span>
         </div>
       </div>
       <img
         tabindex="0"
         role="button"
         aria-label="Recomeçar o jogo"
-        class="game-button restart-button"
+        class="game-button restart-button clickable"
         src="assets/images/restart-button.png"
         (click)="restartGame()"
         (keydown.enter)="restartGame()"

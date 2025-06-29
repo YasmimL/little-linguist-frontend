@@ -40,4 +40,9 @@ export class AcessibilityComponent {
       `${this.defaultSize + this.currentIncrement}px`
     );
   }
+
+  toggleHighContrast(event: Event) {
+    event.preventDefault();
+    document.documentElement.classList.toggle('high-contrast');
+  }
 }

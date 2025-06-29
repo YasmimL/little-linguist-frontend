@@ -1,7 +1,7 @@
 .navbar {
   padding: 0.5rem;
   box-shadow: -1px 1px 12px -1px var(--box-shadow-01);
-  background-color: var(--blue-02) !important;
+  background-color: var(--blue-02);
 
   .container-fluid {
     padding-left: 0;
@@ -42,6 +42,7 @@
       color: var(--white);
       font-size: 1.3rem;
       font-weight: 500;
+      padding: 0 5px;
 
       a {
         &.active {

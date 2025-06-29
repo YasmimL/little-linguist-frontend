@@ -12,13 +12,14 @@
     </ng-container>
 
     <ng-container *ngIf="card.type === 'word'">
-      <div class="card-word-container">
-        <h5>{{ card.word }}</h5>
+      <div class="card-word-container ignore-hc-background">
+        <h5 class="ignore-hc-color ignore-hc-background">{{ card.word }}</h5>
         <img
           [attr.aria-hidden]="!shouldShowPlayButton"
           [tabindex]="shouldShowPlayButton ? 0 : -1"
           aria-label="Pressione Enter para ouvir"
           role="button"
+          class="clickable"
           src="assets/images/sound.png"
           (click)="onClickPlayAudio($event)"
           (keydown.enter)="onClickPlayAudio($event)"

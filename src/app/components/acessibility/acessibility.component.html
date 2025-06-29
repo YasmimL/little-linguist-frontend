@@ -2,24 +2,39 @@
   <div role="group" aria-label="Controles de tamanho da fonte">
     <button
       class="btn btn-light btn-accessibility"
+      title="Diminuir fonte"
       (click)="decreaseFont()"
+      (keydown.enter)="decreaseFont()"
       aria-label="Diminuir fonte"
     >
       A-
     </button>
     <button
       class="btn btn-light btn-accessibility"
+      title="Resetar fonte"
       (click)="resetFont()"
+      (keydown.enter)="resetFont()"
       aria-label="Tamanho normal da fonte"
     >
       A
     </button>
     <button
       class="btn btn-light btn-accessibility"
+      title="Aumentar fonte"
       (click)="increaseFont()"
+      (keydown.enter)="increaseFont()"
       aria-label="Aumentar fonte"
     >
       A+
     </button>
   </div>
+  <button
+    class="btn btn-light btn-accessibility"
+    aria-label="Ativar alto contraste"
+    title="Alto contraste"
+    (click)="toggleHighContrast($event)"
+    (keydown.enter)="toggleHighContrast($event)"
+  >
+    <i class="bi bi-circle-half"></i>
+  </button>
 </div>

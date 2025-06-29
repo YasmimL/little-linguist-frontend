@@ -45,6 +45,7 @@
       background-color: var(--blue-03);
       color: var(--white);
       border-radius: 40px;
+      overflow: hidden;
       box-shadow: 4px 3px 12px -4px var(--box-shadow-02);
 
       &-body {

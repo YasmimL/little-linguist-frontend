@@ -112,6 +112,7 @@
     height: 34rem;
     border: 3px solid var(--gray-04);
     border-radius: 20px;
+    overflow: hidden;
     position: relative;
 
     .card-header {
@@ -127,6 +128,7 @@
         border: 1px solid var(--gray-04);
         background-color: var(--gray-05);
         border-radius: 30px;
+        overflow: hidden;
         width: 10rem;
         height: 3.5rem;
 
@@ -184,6 +186,7 @@
             border: 1px solid var(--gray-04);
             background-color: var(--gray-05);
             border-radius: 30px;
+            overflow: hidden;
             width: 6rem;
             height: 3rem;
             font-weight: 600;
@@ -216,6 +219,7 @@
           justify-content: center;
           border: 4px dashed var(--blue-02);
           border-radius: 30px;
+          overflow: hidden;
           width: 10rem;
           height: 3.5rem;
           font-weight: 500;
@@ -236,6 +240,7 @@
             justify-content: center;
             border: 4px dashed var(--blue-02);
             border-radius: 30px;
+            overflow: hidden;
             width: 10rem;
             height: 3.5rem;
             font-weight: 500;
@@ -285,6 +290,7 @@
               border: 1px solid var(--gray-04);
               background-color: var(--gray-05);
               border-radius: 30px;
+              overflow: hidden;
               width: 8rem;
               height: 4rem;
               font-weight: 600;

@@ -24,3 +24,67 @@ body {
 *:focus-visible {
   outline: -webkit-focus-ring-color auto 1px !important;
 }
+
+// ************************************************************************************************
+// **************************************** Alto contraste ****************************************
+// ************************************************************************************************
+.high-contrast {
+  *:not(.ignore-hc-background):not(img) {
+    background-color: black !important;
+  }
+
+  *:not(.ignore-hc-color) {
+    color: white !important;
+  }
+
+  *:not(.ignore-hc-border-color) {
+    border-color: white !important;
+  }
+
+  *:focus-visible {
+    outline: 3px solid #ffff00 !important;
+  }
+
+  input::placeholder {
+    color: white !important;
+    opacity: 0.5;
+  }
+
+  button[disabled] {
+    border: 1px solid white !important;
+    color: white !important;
+  }
+
+  a,
+  button,
+  .clickable {
+    &:not(.ignore-hc-color) {
+      color: yellow !important;
+      border-color: yellow !important;
+
+      i {
+        color: yellow !important;
+      }
+    }
+  }
+
+  .carousel button {
+    &.carousel-control-prev,
+    &.carousel-control-next {
+      filter: none !important;
+      opacity: 1 !important;
+    }
+  }
+
+  .button-border {
+    border: 2px solid yellow !important;
+  }
+
+  header {
+    border-bottom: 2px solid white;
+  }
+
+  footer {
+    border-top: 2px solid white;
+  }
+}
